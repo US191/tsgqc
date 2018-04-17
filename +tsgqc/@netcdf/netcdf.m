@@ -538,7 +538,7 @@ classdef netcdf < tsgqc.dynaload
       
       % call base class display
       % -----------------------
-      disp@datagui.dynaload(self);
+      disp@tsgqc.dynaload(self);
       
       % diplay methods list in hypertext link
       % -------------------------------------

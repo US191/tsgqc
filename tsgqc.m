@@ -54,9 +54,6 @@ classdef tsgqc < handle
     hdlBottleToggletool
     hdlHeaderPushtool
     hdlReportPushtool
-    hdlPlotsPanel
-    hdlPlotAxes
-    hdlMapFig
     
     nc
     inputFile
@@ -66,13 +63,15 @@ classdef tsgqc < handle
     configFile
     display
     help
+    axes
+    map
     
-    fileListenerHdl
+    hdlDataAvailable
     fontSize = 11
   end
   
   events
-    fileopen
+    dataAvailable
     fileclose
     axesVisible
   end
@@ -100,15 +99,20 @@ classdef tsgqc < handle
             error('Unknow property: "%s"', property);
         end
       end
+      
+      % display user interface
       obj.path = mfilename('fullpath');
       obj.configFile = [prefdir, filesep, mfilename, '.mat'];
       obj.setMainUI;
       obj.setDisplayUI;
       obj.setToolBarUI;
-      obj.setAxesUI
+      % prepare plot and map with events
+      obj.map = tsgqc.map(obj);
+      obj.axes = tsgqc.plot(obj);
+      
       
       % add listener
-      obj.fileListenerHdl = addlistener(obj,'fileopen',@obj.fileEvnt);
+      obj.hdlDataAvailable = addlistener(obj,'dataAvailable',@obj.dataEvent);
     end
     
     % destructor
@@ -116,6 +120,9 @@ classdef tsgqc < handle
     function delete(obj)
       % method save_config
       saveConfig(obj);
+      if ~isempty(obj.map.hdlMapFig)
+        close(obj.map.hdlMapFig);
+      end
       closereq;
     end
     
@@ -536,52 +543,6 @@ classdef tsgqc < handle
       
     end % end of setToolBarUI
     
-    function setAxesUI(obj)
-      obj.hdlPlotsPanel = uipanel( ...
-        'Parent', obj.hdlMainFig, ...
-        'Units', 'normalized', ...
-        'BorderType', 'etchedin',...
-        'Visible', 'on',...
-        'Position',[0.15, 0.0, .85, .95]);
-      
-      obj.hdlPlotAxes(1) = axes( 'Parent', obj.hdlPlotsPanel, 'Visible', 'off', ...
-        'box', 'on', 'Units', 'normalized','Tag', 'TAG_AXES_1', ...
-        'HandleVisibility','on', 'Position',[.05, .64, .93, .35]);
-      obj.hdlPlotAxes(2) = axes( 'Parent', obj.hdlPlotsPanel, 'Visible', 'off',...
-        'box', 'on', 'Units', 'normalized', 'Tag', 'TAG_AXES_2', ...
-        'HandleVisibility','on', 'Position',[.05, .33, .93, .27]);
-      obj.hdlPlotAxes(3) = axes('Parent', obj.hdlPlotsPanel, 'Visible', 'off',...
-        'box', 'on', 'Units', 'normalized', 'Tag', 'TAG_AXES_3', ...
-        'HandleVisibility','on', 'Position',[.05, .02, .93, .27]);
-      
-      % The map will be plot  a new figure
-      obj.hdlMapFig = figure(...
-        'BackingStore','off',...
-        'Name', 'TSG SHIP TRACK', ...
-        'NumberTitle', 'off', ...
-        'Resize', 'on', ...
-        'Menubar','figure', ...
-        'Toolbar', 'none', ...
-        'Tag', 'MAP_FIGURE', ...
-        'Visible','off',...
-        'WindowStyle', 'normal', ...
-        'CloseRequestFcn', @QuitMapCallback,...
-        'Units', 'normalized',...
-        'Position',[0.17, 0.05, .8, .44],...
-        'Color', get(0, 'DefaultUIControlBackgroundColor'));
-      
-      obj.hdlPlotAxes(4) = axes(...     % the axes for plotting ship track map
-        'Parent', obj.hdlMapFig, ...
-        'Units', 'normalized', ...
-        'Visible', 'off', ...
-        'Tag', 'TAG_AXES_MAP', ...
-        'Color', 'none', ...
-        'UserData', 'off', ...
-        'HandleVisibility','on', ...
-        'Position',[.05, .05, .9, .9]);
-      
-    end % end of setAxesUI
-    
     % callbacks
     % ---------
     function saveConfig(obj, ~)
@@ -596,7 +557,7 @@ classdef tsgqc < handle
       else
         disp(['User selected ', fullfile(thePathName, theFileName)])
         obj.nc = tsgqc.netcdf(fullfile(thePathName, theFileName));
-        notify(obj, 'fileopen');
+        notify(obj, 'dataAvailable');
       end
       
     end % end of openMenu
@@ -609,9 +570,9 @@ classdef tsgqc < handle
       set(obj.hdlPanToggletool,   'state', 'off' );
       
       % Make the earth map visible
-      set(obj.hdlMapFig, 'Visible', 'on' );
+      set(obj.map.hdlMapFig, 'Visible', 'on' );
       
-      %erase_Line( obj.hdlPlotAxes, 4 );     
+      %erase_Line( obj.hdlPlotAxes, 4 );
       %plot_map( hMainFig, hPlotAxes)
       
       % De-activate keyPressFcn callback on main fig
@@ -622,7 +583,7 @@ classdef tsgqc < handle
     function Map_OffMenuCallback(obj, ~)
       
       % Make the earth map invisible
-      set(obj.hdlMapFig, 'Visible', 'off' );
+      set(obj.map.hdlMapFig, 'Visible', 'off' );
       
       % Re-activate keyPressFcn callback on main fig
       set(obj.hdlMainFig, 'KeyPressFcn', @keyPressFcnCallback);
@@ -649,8 +610,8 @@ classdef tsgqc < handle
   
   methods (Access = private)
     
-    % wait for dataAvalaible event from CTD
-    function fileEvnt(obj,~,~)
+    % wait for dataAvailable event from CTD
+    function dataEvent(obj,~,~)
       set(obj.hdlSaveMenu,  'Enable', 'on');
       set(obj.hdlExportMenu,  'Enable', 'on');
       set(obj.hdlSavePushtool,  'Enable', 'on');
