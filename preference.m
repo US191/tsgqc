@@ -9,6 +9,8 @@ classdef preference
     char_version          = '1.9.0';
     date_version          = '04/16/2018';
     autoload              = 'off';
+    fileExtensions         = ({'*.lbv';'*.nc';'*.arg';'*.ast';'*.btl';'*.ora';...
+      '*.sdf';'*.spl'; '*.transmit*'; '*.tsgqc'});
     % Climatology
     climatology_version       = {'WOA01','WOA05','ISAS13'};
     climatology_value         = 2;  % WOA05
