@@ -1,3 +1,5 @@
 function saveConfig(obj, ~)
-disp(strcat(class(obj),': save config callback module not yet implemented', 'modal'));
+% Must be a string scalar or character vector
+tsqgcPrefs = obj.preference;
+save(obj.configFile, 'tsqgcPrefs');
 end % end of saveConfig

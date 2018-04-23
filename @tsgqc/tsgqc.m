@@ -4,14 +4,14 @@ classdef tsgqc < handle
   %   %% COPYRIGHT & LICENSE
   %  Copyright 2007 - IRD US191, all rights reserved.
   %
-  %  This file is part of tsgqc.
+  %  This file is part of TSGQC.
   %
   %    TSGQC is free software; you can redistribute it and/or modify
   %    it under the terms of the GNU General Public License as publDisplayished by
   %    the Free Software Foundation; either version 2 of the License, or
   %    (at your option) any later version.
   %
-  %    tsgqc is distributed in the hope that it will be useful,
+  %    TSGQC is distributed in the hope that it will be useful,
   %    but WITHOUT ANY WARRANTY; without even the implied warranty of
   %    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   %    GNU General Public License for more details.
@@ -21,6 +21,8 @@ classdef tsgqc < handle
   %    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
   properties
+    VERSION = '1.9.0 alpha'
+    DATE    = '04/23/2018'
     hdlMainFig
     hdlFileMenu
     hdlOpenMenu
@@ -58,7 +60,7 @@ classdef tsgqc < handle
     nc
     inputFile
     outputFile
-    preference = preference
+    preference % preference class load from mat file
     path
     configFile
     display
@@ -102,17 +104,51 @@ classdef tsgqc < handle
       
       % display user interface
       obj.path = mfilename('fullpath');
-      obj.configFile = [prefdir, filesep, mfilename, '.mat'];
-      obj.setMainUI;
+      obj.configFile = [prefdir, filesep, mfilename, '-v2.mat'];
+      
+      % load config preference class from mat file
+      obj.loadConfig;
+      
+      % create and then hide the GUI as it is being constructed.
+      handleVisibility = 'on';
+      
+      % screen limits for the GUI
+      r = groot;
+      r.Units = 'normalized';
+      guiLimits = r.ScreenSize;
+      guiLimits(1) = guiLimits(1) + 0.01;
+      guiLimits(2) = guiLimits(2) + 0.05;
+      guiLimits(3) = guiLimits(3) - 0.02;
+      guiLimits(4) = guiLimits(4) - 0.15;
+      
+      % define main figure
+      obj.hdlMainFig = figure(...
+        'Name', strcat('TSG Validation - v', obj.preference.version), ...
+        'NumberTitle', 'off', ...
+        'Resize', 'on', ...
+        'Menubar', 'none', ...
+        'Toolbar', 'none', ...
+        'UserData', 'ButtonMotionOff', ...
+        'HandleVisibility', handleVisibility,...
+        'Visible','on',...
+        'Tag','TAG_TSG-QC_GUI',...
+        'Units', 'normalized',...
+        'Position',guiLimits, ...
+        'Color', get( 0, 'DefaultUIControlBackgroundColor' ),...
+        'CloseRequestFcn', {@(src,evt) delete(obj)});
+      % 'WindowButtonMotionFcn', {@(src,evt) mouseMotion(obj,src)}, ...
+      
+      % call the User Interface
+      obj.setMenuUI(handleVisibility);
       obj.setDisplayUI;
       obj.setToolBarUI;
+      
       % prepare plot and map with events
       obj.map = tsgqc.map(obj);
-      obj.axes = tsgqc.plot(obj);
-      
+      obj.axes = tsgqc.plot(obj);   
       
       % add listener
-      obj.hdlDataAvailable = addlistener(obj,'dataAvailable',@obj.dataEvent);
+      obj.hdlDataAvailable = addlistener(obj,'dataAvailable',@obj.dataAvailableEvent);
     end
     
     % destructor

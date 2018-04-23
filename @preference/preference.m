@@ -5,9 +5,8 @@ classdef preference
   properties
      % add tsg.preference to default values
     % -------------------------------------
-    version               = 1.90;
-    char_version          = '1.9.0';
-    date_version          = '04/16/2018';
+    version         
+    date       
     autoload              = 'off';
     fileExtensions         = ({'*.lbv';'*.nc';'*.arg';'*.ast';'*.btl';'*.ora';...
       '*.sdf';'*.spl'; '*.transmit*'; '*.tsgqc'});
@@ -57,8 +56,12 @@ classdef preference
     ws_timediff           = '5';
   end
   
+  % constructor
+  % ------------
   methods
-    function obj = preference()
+    function obj = preference(theVersion, theDate)
+      obj.version = theVersion;
+      obj.date = theDate;
  
     end
     

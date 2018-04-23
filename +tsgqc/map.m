@@ -22,7 +22,7 @@ classdef map < handle
       obj.setToolBarUI
       
       % add listener from tsgqc when data are available
-      obj.hdlDataAvailable = addlistener(parent,'dataAvailable',@obj.dataEvent);
+      obj.hdlDataAvailable = addlistener(parent,'dataAvailable',@obj.dataAvailableEvent);
       
     end
     
@@ -254,7 +254,7 @@ classdef map < handle
     
     % wait for dataAvailable event from tsgqc
     % ---------------------------------------
-    function dataEvent(obj,src,~)
+    function dataAvailableEvent(obj,src,~)
       disp(strcat(class(obj),': data available for map'));
       obj.loadMap(src);
     end

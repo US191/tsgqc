@@ -1,4 +1,4 @@
-function dataEvent(obj,~,~)
+function dataAvailableEvent(obj,~,~)
 set(obj.hdlSaveMenu,  'Enable', 'on');
 set(obj.hdlExportMenu,  'Enable', 'on');
 set(obj.hdlSavePushtool,  'Enable', 'on');

@@ -18,7 +18,7 @@ classdef plot < handle
       obj.hdlParent = parent.hdlMainFig;
       obj.setUI;
       % add listener from tsgqc when data are available
-      obj.hdlDataAvailable = addlistener(parent,'dataAvailable',@obj.dataEvent);
+      obj.hdlDataAvailable = addlistener(parent,'dataAvailable',@obj.dataAvailableEvent);
     end
     
     % build plot data User Interface
@@ -59,11 +59,43 @@ classdef plot < handle
         'Tag', ['TAG_PLOT' '_SSPS' '_LINE_'], ...
         'LineStyle', lineType, ...
         'Marker', markType, 'MarkerSize', markSize, 'Color', colVal);
+      obj.axesCommonProp;
     end
+    
+    function axesCommonProp(obj)
+      %
+      % $Id: axesCommonProp.m 775 2017-01-17 15:07:06Z jgrelet $
+      
+      datetick(obj.hdlPlotAxes(1), 'x', 'keeplimits');
+      datetick(obj.hdlPlotAxes(2), 'x', 'keeplimits');
+      datetick(obj.hdlPlotAxes(3), 'x', 'keeplimits');
+      
+      % Make the axes visible
+      % ---------------------
+      set(obj.hdlPlotAxes(1), 'Visible', 'on' );
+      set(obj.hdlPlotAxes(2), 'Visible', 'on' );
+      set(obj.hdlPlotAxes(3), 'Visible', 'on' );
+      
+      drawnow
+      
+      % The 3 axes will behave identically when zoomed and panned
+      % Since R2014b figure became an object, linkaxes failed if
+      % the 3 axes not defined
+      % ---------------------------------------------------------
+      if verLessThan('matlab','8.4')
+        linkaxes([obj.hdlPlotAxes(1),obj.hdlPlotAxes(2),obj.hdlPlotAxes(3)], 'x');
+      else
+        if obj.hdlPlotAxes(2).XLim(1) ~= 0 && obj.hdlPlotAxes(3).XLim(1) ~= 0
+          linkaxes([obj.hdlPlotAxes(1),obj.hdlPlotAxes(2),obj.hdlPlotAxes(3)], 'x');
+        end
+      end
+      
+    end
+    
     
     % wait for dataAvailable event from tsgqc
     % ---------------------------------------
-    function dataEvent(obj,src,~)
+    function dataAvailableEvent(obj,src,~)
       disp(strcat(class(obj),': data available for plot'));
       obj.loadPlots(src);
     end
