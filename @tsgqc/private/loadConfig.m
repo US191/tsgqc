@@ -14,9 +14,11 @@ if exist(obj.configFile) == 2
   end
   
   % for a new version, reload default preference class
-  if ~strcmp(obj.preference.version, obj.VERSION)
+  if isa(tsqgcPrefs, 'preference') && ~strcmp(obj.preference.version, obj.VERSION)
+    obj.preference = preference(obj.VERSION, obj.DATE);
+  elseif ~isa(tsqgcPrefs, 'preference')
     obj.preference = preference(obj.VERSION, obj.DATE);
   end
 else
   obj.preference = preference(obj.VERSION, obj.DATE);
-end % end of loadConfig
+end 

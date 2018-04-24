@@ -2,7 +2,7 @@
 % $Id: tsgqc_netcdf.csv 709 2013-01-16 14:34:41Z jgrelet $
 %
 %
-$DIMENSIONS$
+$Dimensions$
 #;key__;dimlen;unlimited;#
 #;char;integer;logical;#
 #;DAYD;;0;#
@@ -15,7 +15,7 @@ $DIMENSIONS$
 #;STRING4;4;0;#
 #;N1;1;0;#
 %
-$VARIABLES$
+$Variables$
 #;key__;dimension__;type__;long_name;standard_name;units;conventions;valid_min;valid_max;format;FillValue_;epic_code;axis;resolution;comment;default_value;coordinate;#
 #;char;cell;char;char;char;char;char;double;double;char;double;double;char;double;char;double;char;#
 #;REFERENCE_DATE_TIME;'STRING14';char;ORIGIN OF TIME;;;yyyymmddHHMMSS;;;;;;;;Reference date for julian days origin. The recommended reference date time is "19500101000000": January 1st 1950 00:00:00;;;#
@@ -87,7 +87,7 @@ $VARIABLES$
 #;SSPS_EXT_ANALDATE;'DAYD_EXT','STRING14';char;DATE OF WATER SAMPLE SURFACE SALINITY ANALYSIS;;;yyyymmddHHMMSS;;;;;;;;Date of sea surface salinity water sample analysis;;DAYD_EXT;#
 #;SSPS_EXT_BOTTLE;'DAYD_EXT','STRING4';char;SEA SURFACE SALINITY BOTTLES NUMBERS;;;;;;;;;;;The ID numbers of the sea surface salinity sampling bottles;;DAYD_EXT;#
 %
-$ATTRIBUTES$
+$Attributes$
 #;key__;name;conventions;uicontrolType;string;value;length;height;line;horizontalAlignment;comment;#
 #;char;char;char;char;char;float;float;float;float;char;char;#
 #;TITLE;TITLE;;text;TSG GOSUD ;;0.1;0.02;;right;A description of the dataset;#
@@ -127,7 +127,7 @@ $ATTRIBUTES$
 #;TYPE_POSITION;TYPE_POSITION:;;popupmenu;GPS|GPS DIFFERENTIAL|ARGOS|INTERPOLATE|MANUAL|NONE|UNKNOW;1;0.1;0.02;;right;Description of navigation system. Example: GPS, GPS DIFFERENTIAL, ARGOS, INTERPOLATE, MANUAL, NONE, UNKNOW;#
 #;HISTORY;HISTORY;;edit;;;0.15000001;0.02;;left;Provides an audit trail for modifications to the original data;#
 %
-$QUALITY$
+$Quality$
 #;key__;label;code;color;state;#
 #;char;char;integer;char;char;#
 #;NO_CONTROL;No control;0;k;on;#

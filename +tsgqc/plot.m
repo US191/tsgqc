@@ -48,58 +48,79 @@ classdef plot < handle
     
     % plot data
     % ---------
-    function loadPlots(obj,tsg)
-      lineType =  'none';
-      markType = '*';
-      colVal = 'b';
-      markSize = 2;
-      % Positionning the right axes (set map current axe)
-      axes(obj.hdlPlotAxes(1));
-      line( tsg.nc.Variables.DAYD.data__, tsg.nc.Variables.SSPS.data__, ...
-        'Tag', ['TAG_PLOT' '_SSPS' '_LINE_'], ...
-        'LineStyle', lineType, ...
-        'Marker', markType, 'MarkerSize', markSize, 'Color', colVal);
-      obj.axesCommonProp;
-    end
-    
-    function axesCommonProp(obj)
-      %
-      % $Id: axesCommonProp.m 775 2017-01-17 15:07:06Z jgrelet $
+    function plotData(obj, plotNum, X, Y, QC, qCode, para, colVal, ...
+        lineType, markType, markSize)
       
-      datetick(obj.hdlPlotAxes(1), 'x', 'keeplimits');
-      datetick(obj.hdlPlotAxes(2), 'x', 'keeplimits');
-      datetick(obj.hdlPlotAxes(3), 'x', 'keeplimits');
-      
-      % Make the axes visible
-      % ---------------------
-      set(obj.hdlPlotAxes(1), 'Visible', 'on' );
-      set(obj.hdlPlotAxes(2), 'Visible', 'on' );
-      set(obj.hdlPlotAxes(3), 'Visible', 'on' );
-      
-      drawnow
-      
-      % The 3 axes will behave identically when zoomed and panned
-      % Since R2014b figure became an object, linkaxes failed if
-      % the 3 axes not defined
-      % ---------------------------------------------------------
-      if verLessThan('matlab','8.4')
-        linkaxes([obj.hdlPlotAxes(1),obj.hdlPlotAxes(2),obj.hdlPlotAxes(3)], 'x');
-      else
-        if obj.hdlPlotAxes(2).XLim(1) ~= 0 && obj.hdlPlotAxes(3).XLim(1) ~= 0
-          linkaxes([obj.hdlPlotAxes(1),obj.hdlPlotAxes(2),obj.hdlPlotAxes(3)], 'x');
+      if ~isempty( X ) && ~isempty( Y )
+        % Positionning the right axes (set map current axe)
+        axes(obj.hdlPlotAxes(plotNum));
+        if ~isempty(QC)
+          keys = fieldnames(nc.Quality);
+          for k = 1: length(keys)
+            ind = find( QC == qCode.(k).code);
+            if ~isempty( ind )
+              line( X, Y, 'LineStyle', lineType, 'Marker', markType,...
+                'MarkerSize', markSize, 'Color', qCode.(k).color);
+            end
+          end
+        else
+          if isempty(colVal)
+            colVal = 'k';
+          end
+          line( X, Y, 'LineStyle', lineType, ...
+            'Marker', markType, 'MarkerSize', markSize, 'Color', colVal);
         end
+        obj.axesCommonProp;
+      end
+    end % end of plotData
+      
+      function axesCommonProp(obj)
+        %
+        % $Id: axesCommonProp.m 775 2017-01-17 15:07:06Z jgrelet $
+        
+        datetick(obj.hdlPlotAxes(1), 'x', 'keeplimits');
+        datetick(obj.hdlPlotAxes(2), 'x', 'keeplimits');
+        datetick(obj.hdlPlotAxes(3), 'x', 'keeplimits');
+        
+        % Make the axes visible
+        % ---------------------
+        set(obj.hdlPlotAxes(1), 'Visible', 'on' );
+        set(obj.hdlPlotAxes(2), 'Visible', 'on' );
+        set(obj.hdlPlotAxes(3), 'Visible', 'on' );
+        
+        drawnow
+        
+        % The 3 axes will behave identically when zoomed and panned
+        % Since R2014b figure became an object, linkaxes failed if
+        % the 3 axes not defined
+        % ---------------------------------------------------------
+        if verLessThan('matlab','8.4')
+          linkaxes([obj.hdlPlotAxes(1),obj.hdlPlotAxes(2),obj.hdlPlotAxes(3)], 'x');
+        else
+          if obj.hdlPlotAxes(2).XLim(1) ~= 0 && obj.hdlPlotAxes(3).XLim(1) ~= 0
+            linkaxes([obj.hdlPlotAxes(1),obj.hdlPlotAxes(2),obj.hdlPlotAxes(3)], 'x');
+          end
+        end
+        
       end
       
+      
+      % wait for dataAvailable event from tsgqc
+      % ---------------------------------------
+      function dataAvailableEvent(obj,src,~)
+        disp(strcat(class(obj),': data available for plot'));
+        lineType =  'none';
+        markType = '*';
+        colVal = 'b';
+        markSize = 2;
+        para = 'SSPS';
+        qCode = src.nc.Quality;
+        X = src.nc.Variables.DAYD.data__;
+        Y = src.nc.Variables.(para).data__;
+        QC = src.nc.Variables.([para '_QC']).data__;
+        obj.plotData(1, X, Y, QC, qCode, para, colVal, lineType, markType, markSize);
+      end
     end
     
-    
-    % wait for dataAvailable event from tsgqc
-    % ---------------------------------------
-    function dataAvailableEvent(obj,src,~)
-      disp(strcat(class(obj),': data available for plot'));
-      obj.loadPlots(src);
-    end
   end
   
-end
-

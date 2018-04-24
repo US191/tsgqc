@@ -21,7 +21,7 @@ classdef tsgqc < handle
   %    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
   properties
-    VERSION = '1.9.0 alpha'
+    VERSION = '1.9.0.1 alpha'
     DATE    = '04/23/2018'
     hdlMainFig
     hdlFileMenu

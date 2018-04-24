@@ -8,7 +8,7 @@ classdef preference
     version         
     date       
     autoload              = 'off';
-    fileExtensions         = ({'*.lbv';'*.nc';'*.arg';'*.ast';'*.btl';'*.ora';...
+    fileExtensions         = ({'*.lbv';'*.nc';'OS_*.nc';'*.arg';'*.ast';'*.btl';...
       '*.sdf';'*.spl'; '*.transmit*'; '*.tsgqc'});
     % Climatology
     climatology_version       = {'WOA01','WOA05','ISAS13'};
