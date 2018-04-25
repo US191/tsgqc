@@ -62,11 +62,11 @@ classdef plot < handle
             if ~isempty( ind )
               line( X(ind), Y(ind), 'LineStyle', lineType, 'Marker', markType,...
                 'MarkerSize', markSize, 'Color', qCode.(keys{k}).color);
-%               if obj.debug
-%                 fprintf(1,'Code: %d, Color: %c, Label: %s, Ind: %d\n', ...
-%                   qCode.(keys{k}).code, qCode.(keys{k}).color, ...
-%                   qCode.(keys{k}).label, length(ind));
-%               end
+              %               if obj.debug
+              %                 fprintf(1,'Code: %d, Color: %c, Label: %s, Ind: %d\n', ...
+              %                   qCode.(keys{k}).code, qCode.(keys{k}).color, ...
+              %                   qCode.(keys{k}).label, length(ind));
+              %               end
             end
           end
         else % TODOS. Check if it is necessary
@@ -82,15 +82,11 @@ classdef plot < handle
     end % end of plotData
     
     function axesCommonProp(obj)
-      %
-      % $Id: axesCommonProp.m 775 2017-01-17 15:07:06Z jgrelet $
-      
       datetick(obj.hdlPlotAxes(1), 'x', 'keeplimits');
       datetick(obj.hdlPlotAxes(2), 'x', 'keeplimits');
       datetick(obj.hdlPlotAxes(3), 'x', 'keeplimits');
       
       % Make the axes visible
-      % ---------------------
       set(obj.hdlPlotAxes(1), 'Visible', 'on' );
       set(obj.hdlPlotAxes(2), 'Visible', 'on' );
       set(obj.hdlPlotAxes(3), 'Visible', 'on' );
@@ -98,15 +94,8 @@ classdef plot < handle
       drawnow
       
       % The 3 axes will behave identically when zoomed and panned
-      % Since R2014b figure became an object, linkaxes failed if
-      % the 3 axes not defined
-      % ---------------------------------------------------------
-      if verLessThan('matlab','8.4')
+      if obj.hdlPlotAxes(2).XLim(1) ~= 0 && obj.hdlPlotAxes(3).XLim(1) ~= 0
         linkaxes([obj.hdlPlotAxes(1),obj.hdlPlotAxes(2),obj.hdlPlotAxes(3)], 'x');
-      else
-        if obj.hdlPlotAxes(2).XLim(1) ~= 0 && obj.hdlPlotAxes(3).XLim(1) ~= 0
-          linkaxes([obj.hdlPlotAxes(1),obj.hdlPlotAxes(2),obj.hdlPlotAxes(3)], 'x');
-        end
       end
       
     end

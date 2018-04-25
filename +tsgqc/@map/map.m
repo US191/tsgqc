@@ -136,7 +136,7 @@ classdef map < handle
         end
         
         % Positionning the right axes (set map current axe)
-        axes(obj.hdlMapAxes)
+        axes(obj.hdlMapAxes);
         % axes set visible prop to 'on'
         set(obj.hdlMapFig,'visible','off');
         
