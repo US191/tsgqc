@@ -7,7 +7,7 @@ classdef tsgqc < handle
   %  This file is part of TSGQC.
   %
   %    TSGQC is free software; you can redistribute it and/or modify
-  %    it under the terms of the GNU General Public License as publDisplayished by
+  %    it under the terms of the GNU General Public License as published by
   %    the Free Software Foundation; either version 2 of the License, or
   %    (at your option) any later version.
   %
@@ -20,10 +20,30 @@ classdef tsgqc < handle
   %    along with Datagui; if not, write to the Free Software
   %    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  properties
+  properties (Access = public)
     VERSION = '1.9.0.1 alpha'
     DATE    = '04/23/2018'
+    nc
+    inputFile
+    outputFile
+    preference % preference class load from mat file
+    path
+    configFile
+    debug = false
+    help
+    axes
+    map
+    fontSize = 11
+  end
+  
+  % public handle UI object
+  properties (Access = public)
     hdlMainFig
+    hdlMapToggletool
+  end
+  
+  
+  properties (Access = private)
     hdlFileMenu
     hdlOpenMenu
     hdlSaveMenu
@@ -48,7 +68,7 @@ classdef tsgqc < handle
     hdlPanToggletool
     hdlQCToggletool
     hdlTimelimitToggletool
-    hdlMapToggletool
+    
     hdlGoogleEarthPushtool
     hdlClimToggletool
     hdlCalToggletool
@@ -56,20 +76,7 @@ classdef tsgqc < handle
     hdlBottleToggletool
     hdlHeaderPushtool
     hdlReportPushtool
-    
-    nc
-    inputFile
-    outputFile
-    preference % preference class load from mat file
-    path
-    configFile
-    display
-    help
-    axes
-    map
-    
     hdlDataAvailable
-    fontSize = 11
   end
   
   events
@@ -93,8 +100,8 @@ classdef tsgqc < handle
             obj.inputFile = value;
           case {'outputfile', 'output'}
             obj.outputFile = value;
-          case 'display'
-            obj.display = value;
+          case 'debug'
+            obj.debug = value;
           case 'help'
             obj.help = value;
           otherwise
@@ -143,12 +150,18 @@ classdef tsgqc < handle
       obj.setDisplayUI;
       obj.setToolBarUI;
       
-      % prepare plot and map with events
+      % create an instance off classes plot and map with events
       obj.map = tsgqc.map(obj);
-      obj.axes = tsgqc.plot(obj);   
+      obj.axes = tsgqc.plot(obj);
       
       % add listener
       obj.hdlDataAvailable = addlistener(obj,'dataAvailable',@obj.dataAvailableEvent);
+      
+      % batch mode
+      if ~isempty(obj.inputFile)
+        obj.readFile;
+      end
+      
     end
     
     % destructor
@@ -160,6 +173,14 @@ classdef tsgqc < handle
         close(obj.map.hdlMapFig);
       end
       closereq;
+    end
+    
+    % display overloaded method
+    % -------------------------
+    function disp(obj)
+      if obj.debug
+       % disp not implemented
+      end
     end
     
   end % end of public methods

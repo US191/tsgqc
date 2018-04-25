@@ -1,5 +1,5 @@
 function write(self, varargin)
-% datagui.dynaload.write: write dynaload structure to ASCII CSV file
+% tsgqc.dynaload.write: write dynaload structure to ASCII CSV file
 % (Comma Separated Value) or JSON (JavaScript Object Notation).
 %
 % Usage:
@@ -11,7 +11,7 @@ function write(self, varargin)
 %   'format': 'json' (default) or 'csv'
 %
 % Example:
-%   d = datagui.dynaload('test.xls');
+%   d = tsgqc.dynaload('test.xls');
 %   d.save                     % default, save to test.json
 %   d.save('demo.csv')         % save to demo.csv
 %   d.save('format', 'csv')    % save to test.csv
@@ -59,7 +59,7 @@ while length(property_argin) >= 2,
     case 'format'
       theFormat = value;
     otherwise
-      error('MATLAB:datagui:dynaload:write: Unknown property: ''%s''', property);
+      error('MATLAB:tsgqc:dynaload:write: Unknown property: ''%s''', property);
   end
 end
 
@@ -82,10 +82,10 @@ switch ext
   case {'.csv', '.txt'}
     write_csv_file(self);
   case {'.xls','.xlsx'}
-    error(['MATLAB:datagui:dynaload:write: Save in Excel format.',...
+    error(['MATLAB:tsgqc:dynaload:write: Save in Excel format.',...
       'This functionality is not yet implemented']);
   otherwise
-    error('MATLAB:datagui:dynaload:write: Wrong file extension: ''%s''', ext);
+    error('MATLAB:tsgqc:dynaload:write: Wrong file extension: ''%s''', ext);
 end
 
 end

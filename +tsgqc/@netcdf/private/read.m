@@ -1,5 +1,5 @@
 function read(self)
-% datagui.netcdf.read
+% tsgqc.netcdf.read
 % private function read of netcdf toolbox
 %
 % $Id: read.m 249 2013-02-07 14:28:33Z jgrelet $
@@ -8,7 +8,7 @@ function read(self)
 % -------------------
 self.nc_id = netcdf.open(self.Filename, self.Mode);
 if self.nc_id == -1
-  error(['datagui:netcdf:read', ...
+  error(['tsgqc:netcdf:read', ...
     'The specified data file ''%s'' does not exist\n' ...
     'or is not in the directory which is on the MATLAB path'],...
     self.Filename);
@@ -96,7 +96,7 @@ for id = 0:nvars-1
   
   % add internal type__ member from xtype 2->char, 6->double
   % --------------------------------------------------------
-  s.type__ = datagui.netcdf.getConstantNames(xtype);
+  s.type__ = tsgqc.netcdf.getConstantNames(xtype);
   
   % fill temporary structure s with value
   % -------------------------------------
@@ -138,7 +138,7 @@ for id = 0:nvars-1
         end
         
       otherwise
-        error('datagui:netcdf:read', 'unhandled datatype %d\n', xtype );
+        error('tsgqc:netcdf:read', 'unhandled datatype %d\n', xtype );
     end % end switch
   end % end if
   
@@ -182,19 +182,19 @@ for id = 0:nvars-1
 end
 
 % get gloabal attributes and store to netcdf object
-% -------------------------------------------------https://github.com/jgrelet/datagui.git
+% -------------------------------------------------
 for id = 0:ngatts-1
   
   % Get the name of the global attribute associated with the
   % variable.
   % --------------------------------------------------------
   gattName = netcdf.inqAttName(self.nc_id, ...
-    datagui.netcdf.NC_GLOBAL, id);
+    tsgqc.netcdf.NC_GLOBAL, id);
   
   % Get value of global attribute.
   % ------------------------------
   theValue = netcdf.getAtt(self.nc_id, ...
-    datagui.netcdf.NC_GLOBAL, gattName);
+    tsgqc.netcdf.NC_GLOBAL, gattName);
   
   % put variable name and value to Attributes struct
   % dynamically fill attribute member of structure swith it's value
@@ -211,7 +211,7 @@ for id = 0:ngatts-1
       gattName = strcat(match{1}{2}, match{1}{1});
       self.Attributes.(gattName) = theValue;
     else
-      error(message('MATLAB:datagui:netcdf;read;InvalidAttributeName'));
+      error(message('MATLAB:tsgqc:netcdf;read;InvalidAttributeName'));
     end
   end
  

@@ -57,6 +57,9 @@ classdef map < handle
         'Position',[.05, .05, .9, .9]);
     end
     
+    % define toolbar
+    % should be remove in next version if we share zoom between plot and map
+    % ----------------------------------------------------------------------
     function setToolBarUI(obj)
       obj.hdlToolbar       =   uitoolbar(...   % Toolbar for Open and Print buttons
         'Parent',obj.hdlMapFig, ...
@@ -83,22 +86,21 @@ classdef map < handle
         'OffCallback',  'zoom off');
     end
     
-    
   end % end of public methods
   
   methods (Access = private)
     
-    % load coastline map with ship track
+    % plot coastline map and ship track
     % -----------------------------------
-    function loadMap(obj,tsg)
+    function plotMap(obj,src)
       
       % Get the Geographic limit of the TSG time series
-      dateLim = get(tsg.axes.hdlPlotAxes(1), 'Xlim');
-      ind = find( tsg.nc.Variables.DAYD.data__ >= dateLim(1) & tsg.nc.Variables.DAYD.data__ <= dateLim(2));
+      dateLim = get(src.axes.hdlPlotAxes(1), 'Xlim');
+      ind = find( src.nc.Variables.DAYD.data__ >= dateLim(1) & src.nc.Variables.DAYD.data__ <= dateLim(2));
       
       % m_grid need the use of double instead single
-      latx = double(tsg.nc.Variables.LATX.data__);
-      lonx = double(tsg.nc.Variables.LONX.data__);
+      latx = double(src.nc.Variables.LATX.data__);
+      lonx = double(src.nc.Variables.LONX.data__);
       
       if ~isempty( ind )
         
@@ -141,7 +143,8 @@ classdef map < handle
         % Use of Mercator projection
         m_proj('Mercator','lat',[latMin latMax],'long',[lonMin lonMax]);
         
-        switch tsg.preference.map_resolution
+        % use different resolution
+        switch src.preference.map_resolution
           
           case 1
             % Low-resolution coast lines
@@ -160,7 +163,7 @@ classdef map < handle
             m_gshhs_h('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
             
           otherwise
-            tsg.preference.map_resolution = 1;
+            src.preference.map_resolution = 1;
             % Low-resolution coast lines
             m_coast('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
             
@@ -168,15 +171,29 @@ classdef map < handle
         
         % Make a grid on the map with fancy box
         m_grid('box', 'fancy', 'tickdir', 'in', 'TAG', 'TAG_PLOT4_LINE_GRID', ...
-          'Fontsize', tsg.fontSize);
+          'Fontsize', src.fontSize);
         
-        m_line( mod(lonx(ind) + lonplus, lonmod) - lonplus,...
-          latx(ind), 'LineStyle', 'none', 'marker','*',...
-          'markersize', 2, 'color', 'b');
+        % change with generic value in next version
+        para = 'SSPS';
+        
+        % plot the line with QC color
+        qCode = src.nc.Quality;
+        QC = src.nc.Variables.([para '_QC']).data__;
+        keys = fieldnames(qCode);
+        for k = 1: length(keys)
+          ind = find( QC == qCode.(keys{k}).code);
+          if ~isempty( ind )
+            m_line( mod(lonx(ind) + lonplus, lonmod) - lonplus,...
+              latx(ind), 'LineStyle', 'none', 'marker','*',...
+              'markersize', 2, 'color', qCode.(keys{k}).color);
+          end
+        end
       end
       
     end % end of loadMap
     
+    % for test
+    % -------
     function zoomInOn(obj, ~)
       
       % Desactivate some toggle buttons, hZoomOutToggletool changed state
@@ -188,62 +205,51 @@ classdef map < handle
       %     set( hTimelimitToggletool, 'state', 'off' );
       
       % Hide the map. Otherwise it slows down the zooming
-      % -------------------------------------------------
       %     set( hMapToggletool,       'state', 'off' );
       
       % returns a zoom mode object for the figure hMainFig handle
-      % ---------------------------------------------------------
       hZoom = zoom(obj.hdlMapFig);
       
       % Turns off the automatic adaptation of date ticks
-      % ------------------------------------------------
       tsgqc.zoomAdaptiveDateTicks('on');
       
       % turns interactive zooming to in (increase)
-      % ------------------------------------------
       set(hZoom, 'direction', 'in');
       
       % Disallows a zoom operation on the MAP axes objects
-      % --------------------------------------------------
       %      setAllowAxesZoom(hZoom, hPlotAxes(4), false);
       
       % turns on interactive zooming (same effect than zoom on) but prevent
       % side effect on another figure
-      % -------------------------------------------------------------------
       set(hZoom, 'enable', 'on');
       
       % Set this callback to listen to when a zoom operation finishes
       % must be call after enable zoom (bug ?)
-      % -------------------------------------------------------------
       % set(hZoom, 'ActionPostCallback', @ZoomPan_PostCallback);
       
-    end
+    end % end of zoomInOn
     
-    
+    % for test
+    % --------
     function zoomOutOn(obj, ~)
       hZoom = zoom(obj.hdlMapFig);
       
       % turns interactive zooming out (decrease)
-      % ----------------------------------------
       set(hZoom, 'direction', 'out');
       
       % Disallows a zoom operation on the MAP axes objects
-      % --------------------------------------------------
       %     setAllowAxesZoom(hZoom, hPlotAxes(4), false);
       
       % turns on interactive zooming (same effect than zoom on) but prevent
       % side effect on another figure
-      % -------------------------------------------------------------------
       set(hZoom, 'enable', 'on');
       
       % Set this callback to listen to when a zoom operation finishes
-      % -------------------------------------------------------------
       % set(hZoom, 'ActionPostCallback', @ZoomPan_PostCallback);
     end
     
     
     % Callback function run when the Quit Map Figure item is selected
-    % -----------------------------------------------------------------
     function closeRequestMap(obj, src)
       
       % make the earth map invisible, don't close figure
@@ -256,7 +262,7 @@ classdef map < handle
     % ---------------------------------------
     function dataAvailableEvent(obj,src,~)
       disp(strcat(class(obj),': data available for map'));
-      obj.loadMap(src);
+      obj.plotMap(src);
     end
   end
   

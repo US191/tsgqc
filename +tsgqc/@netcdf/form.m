@@ -1,11 +1,11 @@
 function form(self)
 % FORM(SELF)
-% This function form on datagui.netcdf object open a mask when user can
+% This function form on tsgqc.netcdf object open a mask when user can
 % modify or change global attributes.
 %
 % Input
 % -----
-% self ............ datagui.netcdf instance
+% self ............ tsgqc.netcdf instance
 %
 % $Id: form.m 238 2013-02-02 21:21:42Z jgrelet $
 

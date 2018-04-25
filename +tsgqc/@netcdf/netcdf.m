@@ -1,16 +1,16 @@
-%DATAGUI.NETCDF object
+%TSGQC.NETCDF object
 %
 % NetCDF object interface based on Matlab R2008b NetCDF Library Functions
 % This toolbox is under development, be careful....
 %
-%   OBJ = DATAGUI.NETCDF
+%   OBJ = TSGQC.NETCDF
 %     Open a read-only NetCDF object  with no argument invokes Matlab's "uigetfile"
 %     dialog box for selecting the file to open.
 %
-%   OBJ = DATAGUI.NETCDF(FILENAME)
+%   OBJ = TSGQC.NETCDF(FILENAME)
 %     Open a read-only NetCDF object from FILENAME.
 %
-%   OBJ = DATAGUI.NETCDF(FILENAME, MODE)
+%   OBJ = TSGQC.NETCDF(FILENAME, MODE)
 %     Open a NetCDF object with specified mode.
 %
 %   MODE can be one of:
@@ -19,9 +19,9 @@
 %         'a'   Open or create FILENAME for writing; keep existing content.
 %         'w'   Open FILENAME for writing; discard existing content.
 %
-%  datagui.netcdf (with no argument) invokes Matlab's "uigetfile" dialog box
+%  tsgqc.netcdf (with no argument) invokes Matlab's "uigetfile" dialog box
 %  for selecting the file to open.
-%  datagui.netcdf(name) opens the specified file or variable in the
+%  tsgqc.netcdf(name) opens the specified file or variable in the
 %  appropriate application.
 %
 %  Input:
@@ -31,7 +31,7 @@
 %
 % usage:
 %
-% >> nc = datagui.netcdf('foo.nc')
+% >> nc = tsgqc.netcdf('foo.nc')
 %
 % 	Descriptor:   'netcdf'
 % 	Mode:         'NC_WRITE'
@@ -108,7 +108,7 @@
 %
 % Create NetCDF file with template:
 %
-% >> nc = datagui.netcdf('tsgqc_netcdf.csv')
+% >> nc = tsgqc.netcdf('tsgqc_netcdf.csv')
 %
 % 	Descriptor:   'dynaload'
 % 	Mode:         'NC_CLOBBER'
@@ -175,14 +175,14 @@
 %% COPYRIGHT & LICENSE
 %  Copyright 2009 - IRD US191, all rights reserved.
 %
-%  This file is part of datagui Matlab package.
+%  This file is part of tsgqc Matlab package.
 %
-%    datagui package is free software; you can redistribute it and/or modify
+%    tsgqc package is free software; you can redistribute it and/or modify
 %    it under the terms of the GNU General Public License as published by
 %    the Free Software Foundation; either version 2 of the License, or
 %    (at your option) any later version.
 %
-%    datagui package is distributed in the hope that it will be useful,
+%    tsgqc package is distributed in the hope that it will be useful,
 %    but WITHOUT ANY WARRANTY; without even the implied warranty of
 %    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 %    GNU General Public License for more details.
@@ -378,7 +378,7 @@ classdef netcdf < tsgqc.dynaload
         elseif( isa(varargin{1}, 'char'))
           theFilename = varargin{1};
           if ~exist(theFilename, 'file')
-            error('datagui:netcdf', '%s file don''t exist', theFilename);
+            error('tsgqc:netcdf', '%s file don''t exist', theFilename);
           end
           [pathName, fileName, fileExt] = fileparts(theFilename); %#ok<ASGLU>
           
@@ -393,11 +393,11 @@ classdef netcdf < tsgqc.dynaload
               theDescriptor = 'dynaload';
               theMode       = 'NC_CLOBBER';
             otherwise
-              error('datagui:netcdf', 'Wrong file type: %s', fileExt);
+              error('tsgqc:netcdf', 'Wrong file type: %s', fileExt);
           end
           
         else
-          error('datagui:netcdf', 'Wrong input file argument %s', varargin{1});
+          error('tsgqc:netcdf', 'Wrong input file argument %s', varargin{1});
         end
       end
       
@@ -415,7 +415,7 @@ classdef netcdf < tsgqc.dynaload
             case 'w'
               theMode = 'NC_WRITE';
             otherwise
-              error('datagui:netcdf', 'bad Mode %s', varargin{2});
+              error('tsgqc:netcdf', 'bad Mode %s', varargin{2});
           end
         else
           next = 2;
@@ -442,7 +442,7 @@ classdef netcdf < tsgqc.dynaload
                 case {'w', 'NC_WRITE', 'WRITE'}
                   theMode = 'NC_WRITE';
                 otherwise
-                  error('datagui:netcdf', 'bad Mode %s', value);
+                  error('tsgqc:netcdf', 'bad Mode %s', value);
               end
             case 'autonan'
               theAutoNan = value;
@@ -451,7 +451,7 @@ classdef netcdf < tsgqc.dynaload
             case 'autoform'
               theAutoForm = value;
             otherwise
-              error('datagui:netcdf', 'Unknown property: %s', property);
+              error('tsgqc:netcdf', 'Unknown property: %s', property);
           end
         end
       end
@@ -489,7 +489,7 @@ classdef netcdf < tsgqc.dynaload
         case 'dynaload'
           self.Mode = 'NC_WRITE';
         otherwise
-          error('datagui:netcdf', 'Wrong descriptor: %s', self.descriptor);
+          error('tsgqc:netcdf', 'Wrong descriptor: %s', self.descriptor);
       end
       
     end % end of constructor
@@ -517,7 +517,7 @@ classdef netcdf < tsgqc.dynaload
       
       % diplay help in hypertext link
       % ------------------------------
-      %fprintf('<a href="matlab:help datagui.netcdf">datagui.netcdf</a>\n');
+      %fprintf('<a href="matlab:help tsgqc.netcdf">tsgqc.netcdf</a>\n');
       
       % use local variables for displaying boolean
       % ------------------------------------------
@@ -542,7 +542,7 @@ classdef netcdf < tsgqc.dynaload
       
       % diplay methods list in hypertext link
       % -------------------------------------
-      disp('list of <a href="matlab:methods(''datagui.netcdf'')">methods</a>');
+      disp('list of <a href="matlab:methods(''tsgqc.netcdf'')">methods</a>');
       
     end
     
@@ -566,7 +566,7 @@ classdef netcdf < tsgqc.dynaload
     
     function set.AutoNan(self, theValue)
       if (~islogical(theValue))
-        error('datagui:netcdf:autoNan', 'datagui.netcdf:set.autoNan: value must be a boolean')
+        error('tsgqc:netcdf:autoNan', 'tsgqc.netcdf:set.autoNan: value must be a boolean')
       end
       self.AutoNan = logical(theValue);
     end
@@ -577,7 +577,7 @@ classdef netcdf < tsgqc.dynaload
     
     function set.AutoScale(self, theValue)
       if (~islogical(theValue))
-        error('datagui:netcdf:autoScale', 'datagui.netcdf:set.autoScale: value must be a boolean')
+        error('tsgqc:netcdf:autoScale', 'tsgqc.netcdf:set.autoScale: value must be a boolean')
       end
       self.AutoScale = logical(theValue);
     end
@@ -588,7 +588,7 @@ classdef netcdf < tsgqc.dynaload
     
     function set.AutoForm(self, theValue)
       if (~islogical(theValue))
-        error('datagui:netcdf:autoForm', 'datagui.netcdf:set.autoForm: value must be a boolean')
+        error('tsgqc:netcdf:autoForm', 'tsgqc.netcdf:set.autoForm: value must be a boolean')
       end
       self.AutoForm = logical(theValue);
     end
@@ -625,7 +625,7 @@ classdef netcdf < tsgqc.dynaload
         case  6   % NC_DOUBLE 6
           name = 'double';
         otherwise
-          error('datagui:netcdf', 'unhandled data type %d\n', xtype );
+          error('tsgqc:netcdf', 'unhandled data type %d\n', xtype );
       end
     end
     

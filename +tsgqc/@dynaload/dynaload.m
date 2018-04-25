@@ -1,6 +1,6 @@
-%%datagui.dynaload read or create dynaload object
+%%tsgqc.dynaload read or create dynaload object
 %
-% file +datagui/@dynaload/dynaload
+% file +tsgqc/@dynaload/dynaload
 %
 % This class is used to load complex object descriptor from Excel (.xls),
 % ASCII (.csv) files or JSON (Javascript Object Notation) format (.json)
@@ -8,11 +8,11 @@
 % files are created and used on production.
 % dynaload inherit from dynamicprops and is handle class
 %
-% >> d = datagui.dynaload('tsgqc_netcdf.json')
-%   datagui.dynaload
-%   Package: datagui
+% >> d = tsgqc.dynaload('tsgqc_netcdf.json')
+%   tsgqc.dynaload
+%   Package: tsgqc
 %
-%         Filename:     'C:\svn\datagui\trunk\+datagui\examples\tsgqc_netcdf.json'
+%   Filename:     'C:\svn\tsgqc\trunk\+tsgqc\examples\tsgqc_netcdf.json'
 %   MagicField:     'data__'
 %   AutoAccess:     'false'
 %         Echo:     'true'
@@ -88,21 +88,21 @@
 % >> d.write('tsgqc_netcdf.csv');
 %
 % % csv file format :
-% >> type +datagui/demos/netcdf/tsgqc_netcdf.csv
+% >> type +tsgqc/demos/netcdf/tsgqc_netcdf.csv
 %
 % $Id: dynaload.m 252 2013-08-16 14:58:37Z jgrelet $
 
 %% COPYRIGHT & LICENSE
 %  Copyright 2009 - IRD US191, all rights reserved.
 %
-%  This file is part of datagui Matlab package.
+%  This file is part of tsgqc Matlab package.
 %
-%    datagui package is free software; you can redistribute it and/or modify
+%    tsgqc package is free software; you can redistribute it and/or modify
 %    it under the terms of the GNU General Public License as published by
 %    the Free Software Foundation; either version 2 of the License, or
 %    (at your option) any later version.
 %
-%    datagui package is distributed in the hope that it will be useful,
+%    tsgqc package is distributed in the hope that it will be useful,
 %    but WITHOUT ANY WARRANTY; without even the implied warranty of
 %    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 %    GNU General Public License for more details.
@@ -217,7 +217,7 @@ classdef dynaload < dynamicprops
               % ---------------------------------
               
               if isempty( theFilename)
-                error('datagui:dynaload', ...
+                error('tsgqc:dynaload', ...
                   'Wrong or bad file: %s', varargin{1});
               end
             end
@@ -236,7 +236,7 @@ classdef dynaload < dynamicprops
               case {'.xls', '.xlsx'}
                 filterIndex = 3;
               otherwise
-                error('datagui:dynaload', 'Wrong file type: %s', fileExt);
+                error('tsgqc:dynaload', 'Wrong file type: %s', fileExt);
             end
             
             % if argument is a cell, initialise theArg for dynamic prop
@@ -247,7 +247,7 @@ classdef dynaload < dynamicprops
             % bad or unknow constructor argument
             % ----------------------------------
           else
-            error('datagui:dynaload', 'Wrong input argument');
+            error('tsgqc:dynaload', 'Wrong input argument');
           end
           
           % check for additional properties
@@ -265,7 +265,7 @@ classdef dynaload < dynamicprops
               case 'autoaccess'
                 self.AutoAccess = value;
               otherwise
-                error('datagui:dynaload', 'Unknown property: "%s"', property);
+                error('tsgqc:dynaload', 'Unknown property: "%s"', property);
             end
           end
       end
@@ -309,7 +309,7 @@ classdef dynaload < dynamicprops
         case 3
           read_xls_file(self);
         otherwise
-          error('datagui:dynaload', 'Wrong file type');
+          error('tsgqc:dynaload', 'Wrong file type');
       end
       
     end % end of constructor
@@ -330,7 +330,7 @@ classdef dynaload < dynamicprops
       if ischar(MagicField)
         self.MagicField = MagicField;
       else
-        error('datagui:dynaload:set:MagicField', ...
+        error('tsgqc:dynaload:set:MagicField', ...
           'MagicField should be a string');
       end
     end
@@ -365,7 +365,7 @@ classdef dynaload < dynamicprops
             msg = char(theEcho);
           end
         end
-        error('datagui:dynaload:set:Echo', ...
+        error('tsgqc:dynaload:set:Echo', ...
           'arg %s is %s, not logical', msg, class(theEcho));
       end
     end
@@ -387,10 +387,10 @@ classdef dynaload < dynamicprops
       % add test here
       
       if ~exist('theKey', 'var')  
-        error('datagui:dynaload:put', 'theKey: MATLAB:undefinedVariable');
+        error('tsgqc:dynaload:put', 'theKey: MATLAB:undefinedVariable');
       end
       if ~exist('theValue', 'var')
-        error('datagui:dynaload:put', 'theValue: MATLAB:undefinedVariable');
+        error('tsgqc:dynaload:put', 'theValue: MATLAB:undefinedVariable');
       end
       
       % add new member(s)/value(s) pair(s)
@@ -410,7 +410,7 @@ classdef dynaload < dynamicprops
           self.(dp).(theKey{i}) = theValue{i};
         end
       else
-        error('datagui:dynaload:put', ...
+        error('tsgqc:dynaload:put', ...
           'arg key: %s, (class %) must be char or cell', theKey, class(theKey));
       end
     end
@@ -459,7 +459,7 @@ classdef dynaload < dynamicprops
       % Print the package name
       % ----------------------
       if ~isempty(mc.ContainingPackage)
-        %strPackage = getString(message('MATLAB:datagui:dynaload:display'));
+        %strPackage = getString(message('MATLAB:tsgqc:dynaload:display'));
         fprintf('  Package: %s\n\n', mc.ContainingPackage.Name);
       else
         fprintf('\n');
@@ -473,7 +473,7 @@ classdef dynaload < dynamicprops
       
       % diplay help in hypertext link
       % -----------------------------
-      %fprintf('<a href="matlab:help datagui.dynaload">datagui.dynaload</a>\n');
+      %fprintf('<a href="matlab:help tsgqc.dynaload">tsgqc.dynaload</a>\n');
       fprintf('    Filename:     ''%s''\n',   self.Filename);
       fprintf('  MagicField:     ''%s''\n',   theMagicField);
       fprintf('  AutoAccess:      %s\n',      theAutoAccess);
@@ -489,13 +489,13 @@ classdef dynaload < dynamicprops
       
       % diplay methods list in hypertext link, debug only
       % -------------------------------------------------
-      % disp('list of <a href="matlab:methods(''datagui.dynaload'')">methods</a>');
+      % disp('list of <a href="matlab:methods(''tsgqc.dynaload'')">methods</a>');
     end
     
 %     % subscripted reference for objects, it's the only way to get data
 %     % with autoaccess = true
 %     % ex: 
-%     % nc = datagui.netcdf('pirata-fr22_ctd.nc')
+%     % nc = tsgqc.netcdf('pirata-fr22_ctd.nc')
 %     % nc.AutoAccess = true
 %     % nc.Variables.TEMP
 %     % ---------------------------------
