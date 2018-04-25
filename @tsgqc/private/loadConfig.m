@@ -1,7 +1,9 @@
 function loadConfig(obj, ~)
 
+import tsgqc.preference
+
 % test if configuration .mat file exist
-if exist(obj.configFile) == 2
+if exist(obj.configFile, 'file') == 2
   
   try
     % try to load class instance in local workspace
