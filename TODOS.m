@@ -13,6 +13,6 @@
 % 04/25/2018
 % test if an tsgqc instance is in memory
 % implement mouse fonction
-% update zoom on axes and map
+% update zoom on axes and map, use event and pass coordinates
 % resolve Quality member and reading '+tsgqc\@dynaload\tsgqc_netcdf.csv'
 % implement write for GOSUD, OceanSites and ascii
