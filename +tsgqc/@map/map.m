@@ -211,7 +211,7 @@ classdef map < handle
       hZoom = zoom(obj.hdlMapFig);
       
       % Turns off the automatic adaptation of date ticks
-      tsgqc.zoomAdaptiveDateTicks('on');
+      util.zoomAdaptiveDateTicks('on');
       
       % turns interactive zooming to in (increase)
       set(hZoom, 'direction', 'in');
