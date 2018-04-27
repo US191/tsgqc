@@ -1,4 +1,7 @@
 function dataAvailableEvent(obj,~,~)
+
+% enable  toolbar pushButtons when data is read from file and
+% available for processing
 set(obj.hdlSaveMenu,  'Enable', 'on');
 set(obj.hdlExportMenu,  'Enable', 'on');
 set(obj.hdlSavePushtool,  'Enable', 'on');

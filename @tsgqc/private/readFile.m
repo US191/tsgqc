@@ -46,6 +46,14 @@ switch ext
     obj.nc = io.readAsciiTsg(filename);
 end
 
+% test if Quality is a property of netcdf instance 
+if ~isprop(obj.nc, 'Quality')
+  % read quality structure from +tsgqc/@dynaload file
+  tmp = load(strcat('+tsgqc',filesep,'@dynaload',filesep,'quality.mat'));
+  addprop(obj.nc, 'Quality');
+  obj.nc.Quality = tmp.qc;
+end
+
 % send event dataAvailable to application
 notify(obj, 'dataAvailable');
 

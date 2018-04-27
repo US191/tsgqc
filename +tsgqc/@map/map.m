@@ -208,20 +208,21 @@ classdef map < handle
       %     set( hMapToggletool,       'state', 'off' );
       
       % returns a zoom mode object for the figure hMainFig handle
-      hZoom = zoom(obj.hdlMapFig);
+      hdlZoom.hdl = zoom(obj.hdlMapFig);
+      hdlZoom.hdl.ActionPostCallback = {@(src,evt) zoomAndPanPostCallback(obj,src)}; 
       
       % Turns off the automatic adaptation of date ticks
       util.zoomAdaptiveDateTicks('on');
       
       % turns interactive zooming to in (increase)
-      set(hZoom, 'direction', 'in');
+      set(hdlZoom.hdl, 'direction', 'in');
       
       % Disallows a zoom operation on the MAP axes objects
       %      setAllowAxesZoom(hZoom, hPlotAxes(4), false);
       
       % turns on interactive zooming (same effect than zoom on) but prevent
       % side effect on another figure
-      set(hZoom, 'enable', 'on');
+      set(hdlZoom.hdl, 'enable', 'on');
       
       % Set this callback to listen to when a zoom operation finishes
       % must be call after enable zoom (bug ?)
@@ -248,6 +249,23 @@ classdef map < handle
       % set(hZoom, 'ActionPostCallback', @ZoomPan_PostCallback);
     end
     
+    % Callback function run when zoom or pan action finishes: redraw axes
+  function zoomAndPanPostCallback(obj, src)
+    
+    % Set the right limit and interval to the 3 axes
+%     for iaxe = 1:3
+%       set(hPlotAxes(iaxe), 'XTickMode', 'auto')
+%       datetick(hPlotAxes(iaxe), 'x', 'keeplimits')
+%     end
+    
+    % Re-draw the map once the zoom/pan is off
+    % ----------------------------------------
+    if strcmp( get(obj.hdlMapFig,'visible'), 'on') == 1
+     % erase_Line( hPlotAxes, 4 );
+      obj.plotMap(src);
+    end
+    
+  end
     
     % Callback function run when the Quit Map Figure item is selected
     function closeRequestMap(obj, src)

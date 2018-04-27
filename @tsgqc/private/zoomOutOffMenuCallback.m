@@ -1,3 +1,5 @@
 function zoomOutOffMenuCallback(obj, ~)
-disp(strcat(class(obj),': zoomOutOffMenuCallback callback module not yet implemented', 'modal'));
-end
+
+% send event zoomOn to application
+notify(obj, 'zoomOff');
+

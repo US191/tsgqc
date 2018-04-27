@@ -1,5 +1,6 @@
 function loadConfig(obj, ~)
 
+% import preference class from tsgqc package
 import tsgqc.preference
 
 % test if configuration .mat file exist

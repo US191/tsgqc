@@ -76,13 +76,18 @@ classdef tsgqc < handle
     hdlBottleToggletool
     hdlHeaderPushtool
     hdlReportPushtool
+    % handle event
     hdlDataAvailable
+    hdlZoomOn
+    hdlZoomOff
   end
   
   events
     dataAvailable
     fileclose
     axesVisible
+    zoomOn
+    zoomOff
   end
   
   methods
@@ -108,6 +113,24 @@ classdef tsgqc < handle
             error('Unknow property: "%s"', property);
         end
       end
+      
+      % code to run in MATLAB R2014b and earlier here
+      if verLessThan('matlab','9.1')
+        errordlg({'TSGQC need a Matlab version R2016b or higher. !!!', ...
+          'Please, install an up2date Matlab version'}, 'Error TSGQC');
+        return;
+      end
+      
+      % if TSGQC figure exist and still running, don't create a new instance
+      if ~isempty(findobj('Tag', 'TAG_TSG-QC_GUI_V2'))
+        
+        % display error dialog box and quit
+        errordlg({'An instance of TSGQC is still running !!!', ...
+          'Open it from you task bar'}, 'Warning TSGQC');
+        return;
+        
+      end
+      
       
       % display user interface
       obj.path = mfilename('fullpath');
@@ -138,7 +161,7 @@ classdef tsgqc < handle
         'UserData', 'ButtonMotionOff', ...
         'HandleVisibility', handleVisibility,...
         'Visible','on',...
-        'Tag','TAG_TSG-QC_GUI',...
+        'Tag','TAG_TSG-QC_GUI_V2',...
         'Units', 'normalized',...
         'Position',guiLimits, ...
         'Color', get( 0, 'DefaultUIControlBackgroundColor' ),...
@@ -154,8 +177,10 @@ classdef tsgqc < handle
       obj.map = tsgqc.map(obj);
       obj.axes = tsgqc.plot(obj);
       
-      % add listener
+      % add listeners
       obj.hdlDataAvailable = addlistener(obj,'dataAvailable',@obj.dataAvailableEvent);
+      obj.hdlZoomOn = addlistener(obj,'zoomOn',@obj.zoomOnEvent);
+      obj.hdlZoomOff = addlistener(obj,'zoomOff',@obj.zoomOffEvent);
       
       % batch mode
       if ~isempty(obj.inputFile)
@@ -179,7 +204,7 @@ classdef tsgqc < handle
     % -------------------------
     function disp(obj)
       if obj.debug
-       % disp not implemented
+        % disp not implemented
       end
     end
     

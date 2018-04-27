@@ -109,12 +109,19 @@ classdef plot < handle
       markType = '*';
       colVal = 'b';
       markSize = 2;
-      para = 'SSPS';
+      PARA = {'SSPS','SSJT','FLOW'};
       qCode = src.nc.Quality;
       X = src.nc.Variables.DAYD.data__;
-      Y = src.nc.Variables.(para).data__;
-      QC = src.nc.Variables.([para '_QC']).data__;
-      obj.plotData(1, X, Y, QC, qCode, para, colVal, lineType, markType, markSize);
+      for i = 1 : length(PARA)
+        para = PARA{i};
+        Y = src.nc.Variables.(para).data__;
+        if  isfield(src.nc.Variables, [para '_QC'])
+        QC = src.nc.Variables.([para '_QC']).data__;
+        else
+          QC = zeros(length(src.nc.Variables.(para).data__),1);
+        end 
+        obj.plotData(i, X, Y, QC, qCode, para, colVal, lineType, markType, markSize);
+      end
     end
   end
   
