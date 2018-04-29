@@ -88,6 +88,7 @@ classdef tsgqc < handle
     axesVisible
     zoomOn
     zoomOff
+    position
   end
   
   methods
@@ -95,11 +96,14 @@ classdef tsgqc < handle
     % constructor
     % -----------
     function obj = tsgqc(varargin)
-      property_argin = varargin(1:end);
-      while length(property_argin) >= 2
-        property = property_argin{1};
-        value    = property_argin{2};
-        property_argin = property_argin(3:end);
+      if length(varargin) == 1
+        obj.inputFile = varargin{1};
+      end
+      propArgin = varargin(1:end);
+      while length(propArgin) >= 2
+        property = propArgin{1};
+        value    = propArgin{2};
+        propArgin = propArgin(3:end);
         switch lower(property)
           case {'inputfile', 'input'}
             obj.inputFile = value;
@@ -122,15 +126,12 @@ classdef tsgqc < handle
       end
       
       % if TSGQC figure exist and still running, don't create a new instance
-      if ~isempty(findobj('Tag', 'TAG_TSG-QC_GUI_V2'))
-        
+      if ~isempty(findobj('Tag', 'TAG_TSG-QC_GUI_V2'))        
         % display error dialog box and quit
         errordlg({'An instance of TSGQC is still running !!!', ...
           'Open it from you task bar'}, 'Warning TSGQC');
-        return;
-        
+        return; 
       end
-      
       
       % display user interface
       obj.path = mfilename('fullpath');
@@ -165,8 +166,9 @@ classdef tsgqc < handle
         'Units', 'normalized',...
         'Position',guiLimits, ...
         'Color', get( 0, 'DefaultUIControlBackgroundColor' ),...
+        'WindowButtonMotionFcn', {@(src,evt) mouseMotion(obj,src)}, ...
         'CloseRequestFcn', {@(src,evt) delete(obj)});
-      % 'WindowButtonMotionFcn', {@(src,evt) mouseMotion(obj,src)}, ...
+      % 
       
       % call the User Interface
       obj.setMenuUI(handleVisibility);

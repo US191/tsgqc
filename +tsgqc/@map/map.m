@@ -4,12 +4,26 @@ classdef map < handle
   
   properties
     parent
+    dayd
+    latx
+    lonx
+    latMin
+    latMax
+    lonMin
+    lonMax
+    lonplus
+    lonmod
     hdlMapFig
     hdlMapAxes
     hdlToolbar
     hdlZoomInToggletool
     hdlZoomOutToggletool
     hdlDataAvailable
+    hdlPositionOnMap
+  end
+  
+  events
+    position
   end
   
   methods
@@ -23,7 +37,7 @@ classdef map < handle
       
       % add listener from tsgqc when data are available
       obj.hdlDataAvailable = addlistener(parent,'dataAvailable',@obj.dataAvailableEvent);
-      
+      obj.hdlPositionOnMap = addlistener(obj,'position',@obj.positionOnMapEvent);
     end
     
     % build map User Interface
@@ -52,7 +66,6 @@ classdef map < handle
         'Visible', 'off', ...
         'Tag', 'TAG_AXES_MAP', ...
         'Color', 'none', ...
-        'UserData', 'off', ...
         'HandleVisibility','on', ...
         'Position',[.05, .05, .9, .9]);
     end
@@ -94,45 +107,47 @@ classdef map < handle
     % -----------------------------------
     function plotMap(obj,src)
       
+      % initialize map properties
+      % m_grid need the use of double instead single
+      obj.dayd = double(src.nc.Variables.DAYD.data__);
+      obj.latx = double(src.nc.Variables.LATX.data__);
+      obj.lonx = double(src.nc.Variables.LONX.data__);
+      
       % Get the Geographic limit of the TSG time series
       dateLim = get(src.axes.hdlPlotAxes(1), 'Xlim');
-      ind = find( src.nc.Variables.DAYD.data__ >= dateLim(1) & src.nc.Variables.DAYD.data__ <= dateLim(2));
-      
-      % m_grid need the use of double instead single
-      latx = double(src.nc.Variables.LATX.data__);
-      lonx = double(src.nc.Variables.LONX.data__);
+      ind = find( obj.dayd >= dateLim(1) & obj.dayd <= dateLim(2));
       
       if ~isempty( ind )
         
-        latMin = min(latx(ind) );
-        if latMin < -90
-          latMin = -90;
+        obj.latMin = min(obj.latx(ind) );
+        if obj.latMin < -90
+          obj.latMin = -90;
         end
-        latMax = max( latx(ind) );
-        if latMax > 90
-          latMax = 90;
+        obj.latMax = max( obj.latx(ind) );
+        if obj.latMax > 90
+          obj.latMax = 90;
         end
-        lonMin = min( lonx(ind) );
-        lonMax = max( lonx(ind) );
+        obj.lonMin = min( obj.lonx(ind) );
+        obj.lonMax = max( obj.lonx(ind) );
         
         % Oversize window due to the large frame
         %latRange = (latMax-latMin);
-        latMin = max(floor(latMin), -90);
-        latMax = min(ceil(latMax), 90);
+        obj.latMin = max(floor(obj.latMin), -90);
+        obj.latMax = min(ceil(obj.latMax), 90);
         
         %lonRange = (lonMax-lonMin);
-        lonMin = floor(lonMin);
-        lonMax = ceil(lonMax);
+        obj.lonMin = floor(obj.lonMin);
+        obj.lonMax = ceil(obj.lonMax);
         
-        lonRange = (lonMax-lonMin);
+        lonRange = (obj.lonMax-obj.lonMin);
         if lonRange>=360
-          lonMin = -183.6;     %to account for fancy frame
-          lonMax = 183.6;
-          lonplus = 180;
-          lonmod = 360;
+          obj.lonMin = -183.6;     %to account for fancy frame
+          obj.lonMax = 183.6;
+          obj.lonplus = 180;
+          obj.lonmod = 360;
         else
-          lonplus = 0;
-          lonmod = 0;
+          obj.lonplus = 0;
+          obj.lonmod = 0;
         end
         
         % Positionning the right axes (set map current axe)
@@ -141,7 +156,7 @@ classdef map < handle
         set(obj.hdlMapFig,'visible','off');
         
         % Use of Mercator projection
-        m_proj('Mercator','lat',[latMin latMax],'long',[lonMin lonMax]);
+        m_proj('Mercator','lat',[obj.latMin obj.latMax],'long',[obj.lonMin obj.lonMax]);
         
         % use different resolution
         switch src.preference.map_resolution
@@ -183,8 +198,8 @@ classdef map < handle
         for k = 1: length(keys)
           ind = find( QC == qCode.(keys{k}).code);
           if ~isempty( ind )
-            m_line( mod(lonx(ind) + lonplus, lonmod) - lonplus,...
-              latx(ind), 'LineStyle', 'none', 'marker','*',...
+            m_line( mod(obj.lonx(ind) + obj.lonplus, obj.lonmod) - obj.lonplus,...
+              obj.latx(ind), 'LineStyle', 'none', 'marker','*',...
               'markersize', 2, 'color', qCode.(keys{k}).color);
           end
         end
@@ -209,7 +224,7 @@ classdef map < handle
       
       % returns a zoom mode object for the figure hMainFig handle
       hdlZoom.hdl = zoom(obj.hdlMapFig);
-      hdlZoom.hdl.ActionPostCallback = {@(src,evt) zoomAndPanPostCallback(obj,src)}; 
+      hdlZoom.hdl.ActionPostCallback = {@(src,evt) zoomAndPanPostCallback(obj,src)};
       
       % Turns off the automatic adaptation of date ticks
       util.zoomAdaptiveDateTicks('on');
@@ -250,22 +265,22 @@ classdef map < handle
     end
     
     % Callback function run when zoom or pan action finishes: redraw axes
-  function zoomAndPanPostCallback(obj, src)
-    
-    % Set the right limit and interval to the 3 axes
-%     for iaxe = 1:3
-%       set(hPlotAxes(iaxe), 'XTickMode', 'auto')
-%       datetick(hPlotAxes(iaxe), 'x', 'keeplimits')
-%     end
-    
-    % Re-draw the map once the zoom/pan is off
-    % ----------------------------------------
-    if strcmp( get(obj.hdlMapFig,'visible'), 'on') == 1
-     % erase_Line( hPlotAxes, 4 );
-      obj.plotMap(src);
+    function zoomAndPanPostCallback(obj, src)
+      
+      % Set the right limit and interval to the 3 axes
+      %     for iaxe = 1:3
+      %       set(hPlotAxes(iaxe), 'XTickMode', 'auto')
+      %       datetick(hPlotAxes(iaxe), 'x', 'keeplimits')
+      %     end
+      
+      % Re-draw the map once the zoom/pan is off
+      % ----------------------------------------
+      if strcmp( get(obj.hdlMapFig,'visible'), 'on') == 1
+        % erase_Line( hPlotAxes, 4 );
+        obj.plotMap(src);
+      end
+      
     end
-    
-  end
     
     % Callback function run when the Quit Map Figure item is selected
     function closeRequestMap(obj, src)
@@ -277,11 +292,40 @@ classdef map < handle
     end
     
     % wait for dataAvailable event from tsgqc
-    % ---------------------------------------
     function dataAvailableEvent(obj,src,~)
       disp(strcat(class(obj),': data available for map'));
       obj.plotMap(src);
     end
+    
+    % executed on 'position' event reception from mousemotion callback
+    % the maker handle is stored in axes userdata property
+    function positionOnMapEvent(obj,~,eventData)
+      if eventData.index < length(obj.lonx)
+        % if there is no Marker
+        if isempty(obj.hdlMapAxes.UserData)
+          % Plot a Marker (Red point) on the ship track
+          hdlMarker = m_line( mod(obj.lonx(eventData.index) + ...
+            obj.lonplus, obj.lonmod) - obj.lonplus,...
+            obj.latx(eventData.index),...
+            'Marker', 'o', 'MarkerSize', 5, ...
+            'Color', 'r', 'MarkerFaceColor', 'r');
+          % Put a tag on the Marker - This tag allows to get the handle
+          % of the Marker
+          obj.hdlMapAxes.UserData = hdlMarker;
+        else         % a marker exists
+          % Delete the Marker and redraw it
+          delete(obj.hdlMapAxes.UserData);
+          hdlMarker = m_line( ...
+            obj.lonx(eventData.index), obj.latx(eventData.index),...
+            'Marker', 'o', 'MarkerSize', 5, ...
+            'Color', 'r', 'MarkerFaceColor', 'r');
+          % Put a tag on the Marker - This tag allows to get the handle
+          % of the Marker
+          obj.hdlMapAxes.UserData = hdlMarker;
+        end
+      end
+    end
+    
   end
   
 end
