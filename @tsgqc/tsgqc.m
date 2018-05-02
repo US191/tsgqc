@@ -68,7 +68,6 @@ classdef tsgqc < handle
     hdlPanToggletool
     hdlQCToggletool
     hdlTimelimitToggletool
-    
     hdlGoogleEarthPushtool
     hdlClimToggletool
     hdlCalToggletool
@@ -76,10 +75,12 @@ classdef tsgqc < handle
     hdlBottleToggletool
     hdlHeaderPushtool
     hdlReportPushtool
+    
     % handle event
     hdlDataAvailable
     hdlZoomOn
     hdlZoomOff
+    hdlPosition
   end
   
   events
@@ -89,6 +90,7 @@ classdef tsgqc < handle
     zoomOn
     zoomOff
     position
+    positionOnMap
   end
   
   methods
@@ -183,7 +185,8 @@ classdef tsgqc < handle
       obj.hdlDataAvailable = addlistener(obj,'dataAvailable',@obj.dataAvailableEvent);
       obj.hdlZoomOn = addlistener(obj,'zoomOn',@obj.zoomOnEvent);
       obj.hdlZoomOff = addlistener(obj,'zoomOff',@obj.zoomOffEvent);
-      
+      obj.hdlPosition = addlistener(obj,'positionOnMap',@obj.positionOnMapEvent);
+
       % batch mode
       if ~isempty(obj.inputFile)
         obj.readFile;

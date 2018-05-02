@@ -23,15 +23,15 @@ else
   % display informations of cursor location in text uicontrol
   set( obj.hdlInfoDateText, 'String',...
     datestr(tsg.DAYD.data__(indCursor),'dd/mm/yyyy   HH:MM'));
-%   if tsg.preference.positions_format_value == 1
-%     set( hInfoLatText,  'String', dd2dm(tsg.LATX(indCursor), 0) );
-%     set( hInfoLongText, 'String', ...
-%       dd2dm(mod(tsg.LONX(indCursor) + 180, 360) - 180, 1) );
-%   else
-    set( obj.hdlInfoLatText,  'String', tsg.LATX.data__(indCursor) );
-    set( obj.hdlInfoLongText, 'String', ...
-      mod(tsg.LONX.data__(indCursor) + 180, 360) - 180 );
-%   end
+  %   if tsg.preference.positions_format_value == 1
+  %     set( hInfoLatText,  'String', dd2dm(tsg.LATX(indCursor), 0) );
+  %     set( hInfoLongText, 'String', ...
+  %       dd2dm(mod(tsg.LONX(indCursor) + 180, 360) - 180, 1) );
+  %   else
+  set( obj.hdlInfoLatText,  'String', tsg.LATX.data__(indCursor) );
+  set( obj.hdlInfoLongText, 'String', ...
+    mod(tsg.LONX.data__(indCursor) + 180, 360) - 180 );
+  %   end
   if ~isempty(tsg.SSPS.data__)
     set( obj.hdlInfoSSPSText, 'String', tsg.SSPS.data__(indCursor) );
   end
