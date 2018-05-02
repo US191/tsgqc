@@ -24,6 +24,7 @@ classdef map < handle
   
   events
     position
+    positionOnMap
   end
   
   methods
@@ -58,6 +59,7 @@ classdef map < handle
         'CloseRequestFcn', {@(src,evt) closeRequestMap(obj,src)},...
         'Units', 'normalized',...
         'Position',[0.17, 0.05, .8, .44],...
+        'WindowButtonMotionFcn', {@(src,evt) mouseMotion(obj,src)}, ...
         'Color', get(0, 'DefaultUIControlBackgroundColor'));
       
       obj.hdlMapAxes = axes(...     % the axes for plotting ship track map
@@ -207,7 +209,7 @@ classdef map < handle
       
     end % end of loadMap
     
-    % for test
+    % zoomInOn
     % -------
     function zoomInOn(obj, ~)
       
@@ -265,6 +267,7 @@ classdef map < handle
     end
     
     % Callback function run when zoom or pan action finishes: redraw axes
+    % -------------------------------------------------------------------
     function zoomAndPanPostCallback(obj, src)
       
       % Set the right limit and interval to the 3 axes
@@ -274,7 +277,6 @@ classdef map < handle
       %     end
       
       % Re-draw the map once the zoom/pan is off
-      % ----------------------------------------
       if strcmp( get(obj.hdlMapFig,'visible'), 'on') == 1
         % erase_Line( hPlotAxes, 4 );
         obj.plotMap(src);
@@ -283,6 +285,7 @@ classdef map < handle
     end
     
     % Callback function run when the Quit Map Figure item is selected
+    % ---------------------------------------------------------------
     function closeRequestMap(obj, src)
       
       % make the earth map invisible, don't close figure
@@ -299,6 +302,7 @@ classdef map < handle
     
     % executed on 'position' event reception from mousemotion callback
     % the maker handle is stored in axes userdata property
+    % ----------------------------------------------------------------
     function positionOnMapEvent(obj,~,eventData)
       if eventData.index < length(obj.lonx)
         % if there is no Marker
@@ -326,6 +330,16 @@ classdef map < handle
       end
     end
     
+    %
+    % ------------------------
+    function mouseMotion(obj, ~)
+      a = get(obj.hdlMapAxes, 'CurrentPoint');
+      x = a(2,1);
+      y = a(2,2);
+      indCursor = find(obj.lonx > x, 1, 'first');
+      % send event for plot position on map
+      notify(obj, 'positionOnMap', tsgqc.positionOnMapEventData(indCursor));
+    end
   end
   
 end
