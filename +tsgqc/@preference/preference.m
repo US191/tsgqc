@@ -19,7 +19,7 @@ classdef preference
     coeff_type_value      = 2;
     % Plot
     map_resolution_string = {'low','medium','intermediate','high'};
-    map_resolution        = 1;
+    map_resolution        = 4;
     plot_connected_string = {'none', '-', '--', ':', '-.'};
     plot_connected_value  = 1;  % 0, line not connected
     % QC test
