@@ -1,5 +1,9 @@
 classdef tsgqc < handle
   %TSGQC: Thermosalinograph (TSG) Quality Control software
+  %
+  % For debug: 
+  % close all force
+  % clear classes
   
   %   %% COPYRIGHT & LICENSE
   %  Copyright 2007 - IRD US191, all rights reserved.
@@ -21,7 +25,7 @@ classdef tsgqc < handle
   %    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
   properties (Access = public)
-    VERSION = '1.9.0.1 alpha'
+    VERSION = '1.9.0.3 alpha'
     DATE    = '04/23/2018'
     nc
     inputFile
@@ -33,7 +37,6 @@ classdef tsgqc < handle
     help
     axes
     map
-    fontSize = 11
   end
   
   % public handle UI object
@@ -51,6 +54,7 @@ classdef tsgqc < handle
     hdlExportTsg
     hdlExportSample
     hdlQuitMenu
+    hdlPreferencesMenu
     hdlInfoPanel
     hdlInfoFileText
     hdlInfoDateText
@@ -85,6 +89,7 @@ classdef tsgqc < handle
   
   events
     dataAvailable
+    dataAvailableForMap
     fileclose
     axesVisible
     zoomOn
@@ -178,8 +183,8 @@ classdef tsgqc < handle
       obj.setToolBarUI;
       
       % create an instance off classes plot and map with events
-      obj.map = tsgqc.map(obj);
       obj.axes = tsgqc.plot(obj);
+       obj.map = tsgqc.map(obj);
       
       % add listeners
       obj.hdlDataAvailable = addlistener(obj,'dataAvailable',@obj.dataAvailableEvent);

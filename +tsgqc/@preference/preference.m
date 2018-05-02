@@ -10,6 +10,7 @@ classdef preference
     autoload              = 'off';
     fileExtensions         = ({'*.lbv';'*.nc';'OS_*.nc';'*.arg';'*.ast';'*.btl';...
       '*.sdf';'*.spl'; '*.transmit*'; '*.tsgqc'});
+    fontSize = 11
     % Climatology
     climatology_version       = {'WOA01','WOA05','ISAS13'};
     climatology_value         = 2;  % WOA05
@@ -19,7 +20,7 @@ classdef preference
     coeff_type_value      = 2;
     % Plot
     map_resolution_string = {'low','medium','intermediate','high'};
-    map_resolution        = 4;
+    map_resolution        = 2;
     plot_connected_string = {'none', '-', '--', ':', '-.'};
     plot_connected_value  = 1;  % 0, line not connected
     % QC test

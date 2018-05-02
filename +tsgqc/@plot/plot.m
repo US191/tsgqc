@@ -91,7 +91,8 @@ classdef plot < handle
       set(obj.hdlPlotAxes(2), 'Visible', 'on' );
       set(obj.hdlPlotAxes(3), 'Visible', 'on' );
       
-      drawnow
+      % TODOS, check if necessary
+      drawnow;
       
       % The 3 axes will behave identically when zoomed and panned
       if obj.hdlPlotAxes(2).XLim(1) ~= 0 && obj.hdlPlotAxes(3).XLim(1) ~= 0
@@ -104,7 +105,7 @@ classdef plot < handle
     % wait for dataAvailable event from tsgqc
     % ---------------------------------------
     function dataAvailableEvent(obj,src,~)
-      disp(strcat(class(obj),': data available for plot'));
+      fprintf(1, 'data available for %s\n', class(obj));
       lineType =  'none';
       markType = '*';
       colVal = 'b';

@@ -1,6 +1,7 @@
 classdef map < handle
   %TSGQC.MAP Summary of this class goes here
   %   Detailed explanation goes here
+  %
   
   properties
     parent
@@ -34,10 +35,10 @@ classdef map < handle
     function obj = map(parent)
       obj.parent = parent;
       obj.setUI;
-      obj.setToolBarUI
+      %obj.setToolBarUI
       
       % add listener from tsgqc when data are available
-      obj.hdlDataAvailable = addlistener(parent,'dataAvailable',@obj.dataAvailableEvent);
+      obj.hdlDataAvailable = addlistener(parent,'dataAvailableForMap',@obj.dataAvailableEvent);
       obj.hdlPositionOnMap = addlistener(obj,'position',@obj.positionOnMapEvent);
     end
     
@@ -153,9 +154,16 @@ classdef map < handle
         end
         
         % Positionning the right axes (set map current axe)
-        axes(obj.hdlMapAxes);
         % axes set visible prop to 'on'
-        set(obj.hdlMapFig,'visible','off');
+        axes(obj.hdlMapAxes);
+        
+        % if toolbar map is selected, give focus to map
+        if strcmp(src.hdlMapToggletool.Enable, 'on')
+          obj.hdlMapAxes.Visible = 'on';
+        else
+          obj.hdlMapFig.Visible = 'off';
+        end
+        fprintf(1, 'load map with ');
         
         % Use of Mercator projection
         m_proj('Mercator','lat',[obj.latMin obj.latMax],'long',[obj.lonMin obj.lonMax]);
@@ -165,30 +173,34 @@ classdef map < handle
           
           case 1
             % Low-resolution coast lines
+            fprintf(1, 'low resolution\n');
             m_coast('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
             
           case 2
             % Medium-resolution coast lines
+            fprintf(1, 'medium resolution\n');
             m_gshhs_l('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
             
           case 3
             % Intermediate-resolution coast lines
+            fprintf(1, 'intermediate resolution\n');
             m_gshhs_i('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
             
           case 4
             % High-resolution coast lines
+            fprintf(1, 'high resolution\n');
             m_gshhs_h('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
-            
           otherwise
             src.preference.map_resolution = 1;
             % Low-resolution coast lines
+            fprintf(1, 'low resolution\n');
             m_coast('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
             
         end
         
         % Make a grid on the map with fancy box
         m_grid('box', 'fancy', 'tickdir', 'in', 'TAG', 'TAG_PLOT4_LINE_GRID', ...
-          'Fontsize', src.fontSize);
+          'Fontsize', src.preference.fontSize);
         
         % change with generic value in next version
         para = 'SSPS';
@@ -294,9 +306,10 @@ classdef map < handle
       
     end
     
-    % wait for dataAvailable event from tsgqc
+    % wait for dataAvailableForMap event, plot map
+    % --------------------------------------------
     function dataAvailableEvent(obj,src,~)
-      disp(strcat(class(obj),': data available for map'));
+      fprintf(1, 'data available for %s\n', class(obj));
       obj.plotMap(src);
     end
     

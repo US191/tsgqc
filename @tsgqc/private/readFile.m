@@ -56,4 +56,4 @@ end
 
 % send event dataAvailable to application
 notify(obj, 'dataAvailable');
-
+notify(obj, 'dataAvailableForMap');
