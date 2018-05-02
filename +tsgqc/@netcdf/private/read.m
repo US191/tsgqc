@@ -17,9 +17,9 @@ end
 % display more info about read file on console
 % ---------------------------------------------
 if self.Echo
-  fprintf('\nREAD_NETCDF_FILE\n'); tic;
+  fprintf('READ_NETCDF_FILE '); tic;
   fprintf('nc_id: %u\tmode: %s\n', self.nc_id, self.Mode);
-  fprintf('...reading ''%s'' : ', self.Filename);
+  fprintf('reading ''%s'' ', self.Filename);
 end
 
 % returns the number of dimensions, variables, global attributes and

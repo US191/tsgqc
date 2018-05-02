@@ -119,7 +119,8 @@ classdef map < handle
       % Get the Geographic limit of the TSG time series
       dateLim = get(src.axes.hdlPlotAxes(1), 'Xlim');
       ind = find( obj.dayd >= dateLim(1) & obj.dayd <= dateLim(2));
-      
+      % BUG: empty indice ....
+      ind
       if ~isempty( ind )
         
         obj.latMin = min(obj.latx(ind) );
@@ -156,13 +157,14 @@ classdef map < handle
         % Positionning the right axes (set map current axe)
         % axes set visible prop to 'on'
         axes(obj.hdlMapAxes);
+        obj.eraseLine;
+        %set(obj.hdlMapAxes, 'XLimMode', 'auto', 'YLimMode', 'auto');
         
         % if toolbar map is selected, give focus to map
-        if strcmp(src.hdlMapToggletool.Enable, 'on')
-          obj.hdlMapAxes.Visible = 'on';
-        else
-          obj.hdlMapFig.Visible = 'off';
-        end
+        obj.hdlMapFig.Visible = src.hdlMapToggletool.State;
+        
+        % display info on console
+        tic;
         fprintf(1, 'load map with ');
         
         % Use of Mercator projection
@@ -170,33 +172,34 @@ classdef map < handle
         
         % use different resolution
         switch src.preference.map_resolution
-          
           case 1
             % Low-resolution coast lines
-            fprintf(1, 'low resolution\n');
+            fprintf(1, 'low resolution');
             m_coast('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
             
           case 2
             % Medium-resolution coast lines
-            fprintf(1, 'medium resolution\n');
+            fprintf(1, 'medium resolution');
             m_gshhs_l('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
             
           case 3
             % Intermediate-resolution coast lines
-            fprintf(1, 'intermediate resolution\n');
+            fprintf(1, 'intermediate resolution');
             m_gshhs_i('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
             
           case 4
             % High-resolution coast lines
-            fprintf(1, 'high resolution\n');
+            fprintf(1, 'high resolution');
             m_gshhs_h('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
           otherwise
             src.preference.map_resolution = 1;
             % Low-resolution coast lines
-            fprintf(1, 'low resolution\n');
+            fprintf(1, 'low resolution');
             m_coast('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
             
         end
+        
+        t = toc;  fprintf(1, ' ...done (%6.2f sec).\n',t);
         
         % Make a grid on the map with fancy box
         m_grid('box', 'fancy', 'tickdir', 'in', 'TAG', 'TAG_PLOT4_LINE_GRID', ...
@@ -213,7 +216,8 @@ classdef map < handle
           ind = find( QC == qCode.(keys{k}).code);
           if ~isempty( ind )
             m_line( mod(obj.lonx(ind) + obj.lonplus, obj.lonmod) - obj.lonplus,...
-              obj.latx(ind), 'LineStyle', 'none', 'marker','*',...
+              obj.latx(ind),...
+              'Tag', 'TAG_MAP_LINE','LineStyle', 'none', 'marker','*',...
               'markersize', 2, 'color', qCode.(keys{k}).color);
           end
         end
@@ -303,6 +307,17 @@ classdef map < handle
       % make the earth map invisible, don't close figure
       set(src, 'Visible', 'off' );
       set(obj.parent.hdlMapToggletool, 'state',  'off' );
+      
+    end
+    
+    % Erase line children of axe hAxe
+    % -------------------------------
+    function eraseLine( obj )
+      hLines = findobj( obj.hdlMapAxes, '-regexp', ...
+        'Tag', 'TAG_MAP_LINE');
+      if ~isempty( hLines )
+        delete(hLines);
+      end
       
     end
     

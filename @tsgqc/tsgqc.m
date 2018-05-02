@@ -43,6 +43,7 @@ classdef tsgqc < handle
   properties (Access = public)
     hdlMainFig
     hdlMapToggletool
+    hdlInfoFileText
   end
   
   
@@ -56,7 +57,6 @@ classdef tsgqc < handle
     hdlQuitMenu
     hdlPreferencesMenu
     hdlInfoPanel
-    hdlInfoFileText
     hdlInfoDateText
     hdlInfoSSPSText
     hdlInfoSSJTText

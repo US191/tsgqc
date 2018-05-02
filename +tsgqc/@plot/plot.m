@@ -55,12 +55,16 @@ classdef plot < handle
         
         % Positionning the right axes (set map current axe)
         axes(obj.hdlPlotAxes(plotNum));
+        set(obj.hdlPlotAxes(plotNum), 'XLimMode', 'auto', 'YLimMode', 'auto');
+        
         if ~isempty(QC)
           keys = fieldnames(qCode);
           for k = 1: length(keys)
             ind = find( QC == qCode.(keys{k}).code);
             if ~isempty( ind )
-              line( X(ind), Y(ind), 'LineStyle', lineType, 'Marker', markType,...
+              line( X(ind), Y(ind),...
+                'Tag', ['TAG_PLOT' num2str(plotNum) '_LINE_' para '_' keys{k}],...
+                'LineStyle', lineType, 'Marker', markType,...
                 'MarkerSize', markSize, 'Color', qCode.(keys{k}).color);
               %               if obj.debug
               %                 fprintf(1,'Code: %d, Color: %c, Label: %s, Ind: %d\n', ...
@@ -73,7 +77,9 @@ classdef plot < handle
           if isempty(colVal)
             colVal = 'k';
           end
-          line( X, Y, 'LineStyle', lineType, ...
+          line( X, Y, ...
+            'Tag', ['TAG_PLOT' num2str(plotNum) '_LINE_' para],...
+            'LineStyle', lineType, ...
             'Marker', markType, 'MarkerSize', markSize, 'Color', colVal);
         end
         obj.axesCommonProp;
@@ -101,11 +107,24 @@ classdef plot < handle
       
     end
     
+    % Erase line children of axe hAxe
+    % -------------------------------
+    function eraseLine( obj, PlotNum )
+      hLines = findobj( obj.hdlPlotAxes(PlotNum), '-regexp', ...
+        'Tag', ['TAG_PLOT' num2str(PlotNum) '_LINE_']);
+      if ~isempty( hLines )
+        delete(hLines);
+      end
+      
+    end
     
     % wait for dataAvailable event from tsgqc
     % ---------------------------------------
     function dataAvailableEvent(obj,src,~)
       fprintf(1, 'data available for %s\n', class(obj));
+      % print filename without path in DisplayUI
+      [~,file,ext] = fileparts(src.inputFile);
+      src.hdlInfoFileText.String = strcat(file, ext);
       lineType =  'none';
       markType = '*';
       colVal = 'b';
@@ -114,13 +133,14 @@ classdef plot < handle
       qCode = src.nc.Quality;
       X = src.nc.Variables.DAYD.data__;
       for i = 1 : length(PARA)
+        obj.eraseLine(i);
         para = PARA{i};
         Y = src.nc.Variables.(para).data__;
         if  isfield(src.nc.Variables, [para '_QC'])
-        QC = src.nc.Variables.([para '_QC']).data__;
+          QC = src.nc.Variables.([para '_QC']).data__;
         else
           QC = zeros(length(src.nc.Variables.(para).data__),1);
-        end 
+        end
         obj.plotData(i, X, Y, QC, qCode, para, colVal, lineType, markType, markSize);
       end
     end
