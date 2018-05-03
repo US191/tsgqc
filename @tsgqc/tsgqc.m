@@ -80,6 +80,8 @@ classdef tsgqc < handle
     hdlHeaderPushtool
     hdlReportPushtool
     
+    hdlZoom
+    
     % handle event
     hdlDataAvailable
     hdlZoomOn

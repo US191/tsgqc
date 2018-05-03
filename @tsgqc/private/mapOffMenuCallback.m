@@ -4,6 +4,6 @@ function mapOffMenuCallback(obj, ~)
 set(obj.map.hdlMapFig, 'Visible', 'off' );
 
 % Re-activate keyPressFcn callback on main fig
-set(obj.hdlMainFig, 'KeyPressFcn', {@(src,evt) keyPressFcnCallback(obj,src)});
+% set(obj.hdlMainFig, 'KeyPressFcn', {@(src,evt) keyPressFcnCallback(obj,src)});
 
 end

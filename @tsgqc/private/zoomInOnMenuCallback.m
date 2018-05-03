@@ -3,13 +3,14 @@ function zoomInOnMenuCallback(obj, ~)
 % send event zoomOn to application
 notify(obj, 'zoomOn');
 
-hdlZoom = zoom(obj.axes.hdlPlotAxes(1));
+obj.hdlZoom = zoom(obj.axes.hdlPlotAxes(1));
+
+obj.hdlZoom.ActionPostCallback = {@(src,evt) zoomAndPanPostCallback(obj,src)};
 
 util.zoomAdaptiveDateTicks('off');
 
- set(hdlZoom, 'direction', 'in');
- 
- set(hdlZoom, 'enable', 'on');
- 
+obj.hdlZoom.Direction = 'in';
 
- %hdlZoom.hdl.ActionPostCallback = {@(src,evt) zoomAndPanPostCallback(obj,src)};
+obj.hdlZoom.Enable = 'on';
+
+end

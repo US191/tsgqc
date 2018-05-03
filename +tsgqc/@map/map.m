@@ -21,11 +21,13 @@ classdef map < handle
     hdlZoomOutToggletool
     hdlDataAvailable
     hdlPositionOnMap
+    hdlZoomPost
   end
   
   events
     position
     positionOnMap
+    zoomPost
   end
   
   methods
@@ -40,6 +42,8 @@ classdef map < handle
       % add listener from tsgqc when data are available
       obj.hdlDataAvailable = addlistener(parent,'dataAvailableForMap',@obj.dataAvailableEvent);
       obj.hdlPositionOnMap = addlistener(obj,'position',@obj.positionOnMapEvent);
+      obj.hdlZoomPost = addlistener(obj,'zoomPost',@obj.zoomPostEvent);
+
     end
     
     % build map User Interface
@@ -52,7 +56,7 @@ classdef map < handle
         'Name', 'TSG SHIP TRACK', ...
         'NumberTitle', 'off', ...
         'Resize', 'on', ...
-        'Menubar','figure', ...
+        'Menubar','none', ...
         'Toolbar', 'none', ...
         'Tag', 'MAP_FIGURE', ...
         'Visible','off',...
@@ -120,7 +124,6 @@ classdef map < handle
       dateLim = get(src.axes.hdlPlotAxes(1), 'Xlim');
       ind = find( obj.dayd >= dateLim(1) & obj.dayd <= dateLim(2));
       % BUG: empty indice ....
-      ind
       if ~isempty( ind )
         
         obj.latMin = min(obj.latx(ind) );
@@ -356,6 +359,13 @@ classdef map < handle
           obj.hdlMapAxes.UserData = hdlMarker;
         end
       end
+    end
+    
+       % wait for zoomPost event, zoom on map 
+    % --------------------------------------------
+    function zoomPostEvent(obj,src,~)
+      fprintf(1, 'zoom available for %s\n', class(obj));
+      %obj.plotMap(src);
     end
     
     %
