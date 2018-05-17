@@ -1,5 +1,8 @@
 function dataAvailableEvent(obj,~,~)
 
+% enable mouse motion
+obj.hdlMainFig.WindowButtonMotionFcn = {@(src,evt) mouseMotion(obj,src)};
+           
 % enable  toolbar pushButtons when data is read from file and
 % available for processing
 set(obj.hdlSaveMenu,  'Enable', 'on');
