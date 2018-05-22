@@ -1,5 +1,5 @@
 function saveConfig(obj, ~)
 % Must be a string scalar or character vector
-tsqgcPrefs = obj.preference;
-save(obj.configFile, 'tsqgcPrefs');
+tsgqcPrefs = obj.preference; %#ok<NASGU>
+save(obj.configFile, 'tsgqcPrefs');
 end % end of saveConfig

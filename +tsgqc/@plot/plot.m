@@ -129,7 +129,13 @@ classdef plot < handle
       markType = '*';
       colVal = 'b';
       markSize = 2;
-      PARA = {'SSPS','SSJT','FLOW'};
+      % get list of parametrs from left panel popup
+      para1 = get(src.hdlParameter(1), 'string');
+       para2 = get(src.hdlParameter(2), 'string');
+        para3 = get(src.hdlParameter(3), 'string');
+      PARA = {para1{get(src.hdlParameter(1), 'value')}, ...
+        para2{get(src.hdlParameter(2), 'value')},...
+        para3{get(src.hdlParameter(3), 'value')}};
       qCode = src.nc.Quality;
       X = src.nc.Variables.DAYD.data__;
       for i = 1 : length(PARA)

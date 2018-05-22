@@ -8,7 +8,7 @@ if exist(obj.configFile, 'file') == 2
   
   try
     % try to load class instance in local workspace
-    load(obj.configFile, 'tsqgcPrefs');
+    load(obj.configFile, 'tsgqcPrefs');
     % affect local workspace tsgqcPrefs to preference instance
     obj.preference = tsqgcPrefs;
   catch
@@ -17,9 +17,9 @@ if exist(obj.configFile, 'file') == 2
   end
   
   % for a new version, reload default preference class
-  if isa(tsqgcPrefs, 'preference') && ~strcmp(obj.preference.version, obj.VERSION)
+  if isa(tsgqcPrefs, 'preference') && ~strcmp(obj.preference.version, obj.VERSION)
     obj.preference = preference(obj.VERSION, obj.DATE);
-  elseif ~isa(tsqgcPrefs, 'preference')
+  elseif ~isa(tsgqcPrefs, 'preference')
     obj.preference = preference(obj.VERSION, obj.DATE);
   end
 else

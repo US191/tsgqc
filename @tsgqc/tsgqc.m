@@ -44,10 +44,13 @@ classdef tsgqc < handle
     hdlMainFig
     hdlMapToggletool
     hdlInfoFileText
+    % left panel
+     hdlParameter
   end
   
   
   properties (Access = private)
+    % menu
     hdlFileMenu
     hdlOpenMenu
     hdlSaveMenu
@@ -56,6 +59,7 @@ classdef tsgqc < handle
     hdlExportSample
     hdlQuitMenu
     hdlPreferencesMenu
+    % display panel (up)
     hdlInfoPanel
     hdlInfoDateText
     hdlInfoSSPSText
@@ -79,8 +83,14 @@ classdef tsgqc < handle
     hdlBottleToggletool
     hdlHeaderPushtool
     hdlReportPushtool
+    % left panel
+    hdlLeftPanel
+    hdlParameterText
+   
     
+    % more handle
     hdlZoom
+    hdlPan
     
     % handle event
     hdlDataAvailable
@@ -183,6 +193,7 @@ classdef tsgqc < handle
       obj.setMenuUI(handleVisibility);
       obj.setDisplayUI;
       obj.setToolBarUI;
+      obj.setLeftUI;
       
       % create an instance off classes plot and map with events
       obj.axes = tsgqc.plot(obj);
