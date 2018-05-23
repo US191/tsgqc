@@ -1,11 +1,12 @@
 function thePopup = initParameterChoice(obj, value)
+% initParameterChoice is called by dataAvailableEvent
 
 % list of parameters 
 popup = {{'SSPS','SSJT','SSTP','LATX','LONX'}, ...
   {'SSJT','SSTP','SSPS','LATX','LONX'}, ...
-  {'SPDC','CNDC','SSPS_STD','FLOW','PRES','LATX','LONX','SSPS','SSJT','SSTP','FLU2'}};
+  {'SPDC','CNDC','SSPS_STD','FLOW','PRES','LATX','LONX','FLU2'}};
 
-% build the popup from data read in file
+% build the popup from only data read in file
 p = obj.nc.Variables;
 thePopup = [];
 for v = popup{value}

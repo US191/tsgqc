@@ -1,0 +1,396 @@
+Return-Path: <thierry.reynaud@ifremer.fr>
+Received: from [172.16.44.49] (HELO fx409.security-mail.net)
+  by mails.optimails.com (CommuniGate Pro SMTP 6.1.18)
+  with ESMTPS id 866271410 for Jacques.Grelet@ird.fr; Thu, 03 May 2018 14:56:49 +0200
+X-Virus-Scanned: E-securemail
+X-Spam-Status: No, score=x tagged_above=-1000 required=7.5 WHITELISTED
+	tests=[] autolearn=unavailable
+Authentication-Results: fx409.security-mail.net (amavisd-new);
+	dkim=pass (1024-bit key) header.d=ifremer.fr
+Secumail-id: <b7a3.5aeb06cc.840f7.0>
+Received: from gwyddion.ifremer.fr (gwyddion.ifremer.fr [134.246.155.220])
+	by fx409.security-mail.net (Postfix) with ESMTPS id 846A846D67;
+	Thu,  3 May 2018 14:55:40 +0200 (CEST)
+Received: from brehat.ifremer.fr (brehat.ifremer.fr [134.246.166.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by gwyddion.ifremer.fr (Postfix) with ESMTPS id 5270E400C0F;
+	Thu,  3 May 2018 14:55:40 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by brehat.ifremer.fr (Postfix) with ESMTP id 4455C7773;
+	Thu,  3 May 2018 14:55:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ifremer.fr; s=mail;
+	t=1525352140; bh=GMPH4mKIgKBhUEBhfXfoon7udnfOpfzA0sKvpllDbz0=;
+	h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
+	b=SJOCdKfjU5XWZ0UjaBNwpO4yU4o97LPLYXaZ7UQY1c/d0a27fIfHi4anw351eT83/
+	 ru9Ae2mziajKJyeZYiJ2URdRJkHNQBz8z3egaWtqm1jWcrpJxqu/qbyUuDl/IHdceC
+	 3GwdkEKZuPSNkesQToy8xSnbUng19CtYjbT6eT0U=
+X-Virus-Scanned: amavisd-new at ifremer.fr
+Received: from brehat.ifremer.fr ([127.0.0.1])
+	by localhost (brehat.ifremer.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TxEgd1BSTt-h; Thu,  3 May 2018 14:55:40 +0200 (CEST)
+Received: from br146-036.ifremer.fr (br146-036.ifremer.fr [134.246.146.36])
+	by brehat.ifremer.fr (Postfix) with ESMTP id 08CC57772;
+	Thu,  3 May 2018 14:55:40 +0200 (CEST)
+Reply-To: thierry.reynaud@ifremer.fr
+Subject: =?UTF-8?Q?Re:_TSGQC_V2_et_R=c3=a9union_SO-SSS?=
+To: Jacques.Grelet@ird.fr, "GOURIOU, Yves" <yves.gouriou@ird.fr>,
+ Gael Alory <gael.alory@legos.obs-mip.fr>,
+ Thierry Delcroix <Thierry.Delcroix@legos.obs-mip.fr>,
+ Denis Diverres <Denis.Diverres@ird.fr>,
+ VARILLON David <David.Varillon@ird.fr>,
+ =?UTF-8?Q?St=c3=a9phane_JACQUIN?= <stephane.jacquin@ird.fr>,
+ =?UTF-8?Q?C=c3=a9line_Bachelier?= <celine.bachelier@ird.fr>,
+ Bernard Bourles <Bernard.Bourles@ird.fr>
+References: <22ec1af0-3562-385d-a036-c9a537a75850@ird.fr>
+From: Thierry Reynaud <thierry.reynaud@ifremer.fr>
+Organization: Ifremer-LOPS-Brest
+Message-ID: <13539088-79ca-4c06-08eb-dbc4e5d6eb74@ifremer.fr>
+Date: Thu, 3 May 2018 14:55:39 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+ Gecko/20100101 Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <22ec1af0-3562-385d-a036-c9a537a75850@ird.fr>
+Content-Type: multipart/mixed;
+ boundary="------------D6A2CD4E76EA1389DD600C0B"
+Content-Language: fr-classic
+X-Virus-Scanned: by Secumail
+
+This is a multi-part message in MIME format.
+--------------D6A2CD4E76EA1389DD600C0B
+Content-Type: multipart/alternative;
+ boundary="------------B62A64E4E72D0A2DDE62B6A0"
+
+
+--------------B62A64E4E72D0A2DDE62B6A0
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour Jacques,
+
+
+La version initiale de TSGQC a peut-=EAtre 10 ans mais tu as su =EAtre =E0=
+=20
+l'=E9coute des usagers
+
+en modifiant ann=E9e apr=E8s ann=E9e le logiciel =E0 notre demande... mer=
+ci de=20
+ton =E9coute.
+
+
+Je vois bien quelques fonctionnalit=E9s qu'il serait bien de rajouter.
+
+
+Proposition no 1: L'interface de travail
+
+Objectif: modifier =E0 la vol=E9e des valeurs dans la fen=EAtre interm=E9=
+diaire.
+
+Contexte: L'interface de travail est compos=E9e de 3 graphiques. Seule la=
+=20
+fen=EAtre sup=E9rieure permet la validation des QC pour un param=E8tre do=
+nn=E9e.
+
+Description:
+
+Je travaille souvent sur un zoom temporel donn=E9 (et zoom de valeurs des=
+=20
+param=E8tres) que je glisse au fur et =E0 mesure avec la petite main. Le=20
+principe serait de pouvoir corriger =E0 la vol=E9e des valeurs fausses=20
+aper=E7ues dans la fen=EAtre m=E9diane.
+
+L'id=E9e est de gagner du temps afin de ne pas revenir globalement sur un=
+=20
+param=E8tre d=E9j=E0 trait=E9.
+
+Je me disais que cela serait possible si l'on pouvait intervertir les=20
+fen=EAtres sup=E9rieure et m=E9diane en pr=E9servant le zoom temporelle d=
+onn=E9.
+
+Quelques pistes:
+
+Sous matlab, il faudrait intervertir les deux subplots gra=E7e =E0 un bou=
+ton=20
+sur le GUI.
+
+R=E9cup=E9rer via un get(gca,'XLim') et un get(gca,'YLim') pour les deux=20
+figures pour ne pas que le visuel de l=92utilisateur soit affect=E9.
+
+
+Proposition no 2: L'interface de travail
+
+Objectif: Transf=E9rer les QC d'un param=E8tre (temp=E9rature, salinit=E9=
+,=20
+conductivit=E9, ...) vers un autre
+
+Contexte: L'interface de travail est compos=E9e de 3 graphiques. Seule la=
+=20
+fen=EAtre sup=E9rieure permet la validation des QC pour un param=E8tre do=
+nn=E9e.
+
+Description:
+
+A la fin d'une validation d'un param=E8tre, par exemple la salinit=E9, on=
+=20
+souhaite cl=F4ner les QC vers un autre param=E8tre (qui n'est pas encore=20
+trait=E9). L'id=E9e ici est gagner du temps en particulier sur les QC Har=
+bour.
+
+
+Proposition no 3: Interpolation temporelle des climatologies
+
+Objectif: Les climatologies sont tr=E8s utiles dans le processus de=20
+validation des donn=E9es. Le cycle saisonnier est parfois tr=E8s marqu=E9=
+ en=20
+particulier sur la temp=E9rature.
+
+Contexte: Pour l'instant nous avons le choix entre une climato annuelle,=20
+saisonni=E8re et mensuelle.
+
+Description:
+
+L'id=E9e est de rajouter une option. Il s'agirait de disposer de valeurs=20
+de r=E9f=E9rence aux dates des mesures. Je pense que c'est assez simple,
+il faudrait effectuer une interpolation temporelle des climatologies=20
+mensuelles sur la date des mesures pour mieux suivre les transitions=20
+d'un mois =E0 un autre en d=E9but et fin de mois (la clim ISAS est au 15 =
+du=20
+mois courant).
+
+Quelques pistes:
+|Vq =3D interp3(X,Y,Z,V,Xq,Yq,Zq)
+
+
+
+|
+|En te remerciant encore|
+||
+|Thierry|
+
+||
+
+
+Le 03/05/2018 =E0 14:08, Jacques GRELET, Brest IRD, 02 98 22 45 10 a =E9c=
+rit=A0:
+> Bonjour =E0 tous,
+>
+> La version 1.x de TSGQC a d=E9j=E0 10 ans.
+>
+> Afin de rendre le code plus facilement =E9volutif, j'ai commenc=E9 le
+> d=E9veloppement de la version 2 =E0 partir d'une version r=E9cente de M=
+atlab
+> (>=3D R2016b).
+> Pour l'instant ce n'est qu'un projet permettant de tester des technique=
+s
+> de programmation plus r=E9centes (objet, gestion d=92=E9v=E9nements, et=
+c).
+>
+> Afin de pr=E9parer la prochaine r=E9union en juin prochain, si vous ave=
+z des
+> pistes d'am=E9liorations, ajouts/suppressions de fonctionnalit=E9s,
+> =E9volutions de l'interface utilisateur, etc, faites les moi parvenir p=
+ar
+> retour de mail, je suis preneur de vos id=E9es/suggestions.
+>
+> Le d=E9p=F4t est dor=E9navant maintenu avec Git =E0 la place de Subvers=
+ion et
+> est disponible sous : https://github.com/US191/tsgqc mais il y a encore
+> du travail pour impl=E9menter toutes les fonctionnalit=E9s de la versio=
+n 1.
+>
+> Amicalement,
+>
+
+
+
+
+
+
+--------------B62A64E4E72D0A2DDE62B6A0
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html;
+      charset=3Dwindows-1252">
+  </head>
+  <body text=3D"#000000" bgcolor=3D"#FFFFFF">
+    <p>Bonjour Jacques,</p>
+    <p><br>
+    </p>
+    <p>La version initiale de TSGQC a peut-=EAtre 10 ans mais tu as su
+      =EAtre =E0 l'=E9coute des usagers<br>
+    </p>
+    <p>en modifiant ann=E9e apr=E8s ann=E9e le logiciel =E0 notre demande=
+...
+      merci de ton =E9coute.<br>
+    </p>
+    <p><br>
+    </p>
+    <p>Je vois bien quelques fonctionnalit=E9s qu'il serait bien de
+      rajouter.</p>
+    <p><br>
+    </p>
+    <p>Proposition no 1: L'interface de travail<br>
+    </p>
+    <p>Objectif: modifier =E0 la vol=E9e des valeurs dans la fen=EAtre
+      interm=E9diaire.</p>
+    <p>Contexte: L'interface de travail est compos=E9e de 3 graphiques.
+      Seule la fen=EAtre sup=E9rieure permet la validation des QC pour un
+      param=E8tre donn=E9e.<br>
+    </p>
+    <p>Description: <br>
+    </p>
+    <p>Je travaille souvent sur un zoom temporel donn=E9 (et zoom de
+      valeurs des param=E8tres) que je glisse au fur et =E0 mesure avec l=
+a
+      petite main. Le principe serait de pouvoir corriger =E0 la vol=E9e =
+des
+      valeurs fausses aper=E7ues dans la fen=EAtre m=E9diane. <br>
+    </p>
+    <p>L'id=E9e est de gagner du temps afin de ne pas revenir globalement
+      sur un param=E8tre d=E9j=E0 trait=E9. <br>
+    </p>
+    <p>Je me disais que cela serait possible si l'on pouvait intervertir
+      les fen=EAtres sup=E9rieure et m=E9diane en pr=E9servant le zoom
+      temporelle donn=E9.</p>
+    <p>Quelques pistes:</p>
+    <p>Sous matlab, il faudrait intervertir les deux subplots gra=E7e =E0=
+ un
+      bouton sur le GUI. <br>
+    </p>
+    <p>R=E9cup=E9rer via un get(gca,'XLim') et un get(gca,'YLim') pour le=
+s
+      deux figures pour ne pas que le visuel de l=92utilisateur soit
+      affect=E9.<br>
+    </p>
+    <p><br>
+    </p>
+    <p>Proposition no 2: L'interface de travail<br>
+    </p>
+    <p>Objectif: Transf=E9rer les QC d'un param=E8tre (temp=E9rature,
+      salinit=E9, conductivit=E9, ...) vers un autre<br>
+    </p>
+    <p>Contexte: L'interface de travail est compos=E9e de 3 graphiques.
+      Seule la fen=EAtre sup=E9rieure permet la validation des QC pour un
+      param=E8tre donn=E9e.<br>
+    </p>
+    <p>Description: <br>
+    </p>
+    A la fin d'une validation d'un param=E8tre, par exemple la salinit=E9=
+,
+    on souhaite cl=F4ner les QC vers un autre param=E8tre (qui n'est pas
+    encore trait=E9). L'id=E9e ici est gagner du temps en particulier sur
+    les QC Harbour.<br>
+    <br>
+    <br>
+    <p>Proposition no 3: Interpolation temporelle des climatologies<br>
+    </p>
+    <p>Objectif: Les climatologies sont tr=E8s utiles dans le processus d=
+e
+      validation des donn=E9es. Le cycle saisonnier est parfois tr=E8s
+      marqu=E9 en particulier sur la temp=E9rature.<br>
+    </p>
+    <p>Contexte: Pour l'instant nous avons le choix entre une climato
+      annuelle, saisonni=E8re et mensuelle. <br>
+    </p>
+    <p>Description: <br>
+    </p>
+    L'id=E9e est de rajouter une option. Il s'agirait de disposer de
+    valeurs de r=E9f=E9rence aux dates des mesures. Je pense que c'est as=
+sez
+    simple,<br>
+    il faudrait effectuer une interpolation temporelle des climatologies
+    mensuelles sur la date des mesures pour mieux suivre les transitions
+    d'un mois =E0 un autre en d=E9but et fin de mois (la clim ISAS est au=
+ 15
+    du mois courant).<br>
+    <br>
+    Quelques pistes:<br>
+    <div class=3D"code_responsive"><code class=3D"synopsis">Vq =3D
+        interp3(X,Y,Z,V,Xq,Yq,Zq)<br>
+        <br>
+        <br>
+        <br>
+      </code><br>
+      <code class=3D"synopsis">En te remerciant encore</code><br>
+      <code class=3D"synopsis"></code><br>
+      <code class=3D"synopsis">Thierry</code>
+      <p><code class=3D"synopsis"></code></p>
+    </div>
+    <br>
+    Le 03/05/2018 =E0 14:08, Jacques GRELET, Brest IRD, 02 98 22 45 10 a
+    =E9crit=A0:<br>
+    <blockquote type=3D"cite"
+      cite=3D"mid:22ec1af0-3562-385d-a036-c9a537a75850@ird.fr">
+      <pre wrap=3D"">Bonjour =E0 tous,
+
+La version 1.x de TSGQC a d=E9j=E0 10 ans.
+
+Afin de rendre le code plus facilement =E9volutif, j'ai commenc=E9 le
+d=E9veloppement de la version 2 =E0 partir d'une version r=E9cente de Mat=
+lab
+(&gt;=3D R2016b).
+Pour l'instant ce n'est qu'un projet permettant de tester des techniques
+de programmation plus r=E9centes (objet, gestion d=92=E9v=E9nements, etc)=
+.
+
+Afin de pr=E9parer la prochaine r=E9union en juin prochain, si vous avez =
+des
+pistes d'am=E9liorations, ajouts/suppressions de fonctionnalit=E9s,
+=E9volutions de l'interface utilisateur, etc, faites les moi parvenir par
+retour de mail, je suis preneur de vos id=E9es/suggestions.
+
+Le d=E9p=F4t est dor=E9navant maintenu avec Git =E0 la place de Subversio=
+n et
+est disponible sous : <a class=3D"moz-txt-link-freetext" href=3D"https://=
+github.com/US191/tsgqc">https://github.com/US191/tsgqc</a> mais il y a en=
+core
+du travail pour impl=E9menter toutes les fonctionnalit=E9s de la version =
+1.
+
+Amicalement,
+
+</pre>
+    </blockquote>
+    <br>
+ =20
+<br>
+
+
+
+
+<br>
+</body>
+</html>
+
+--------------B62A64E4E72D0A2DDE62B6A0--
+
+--------------D6A2CD4E76EA1389DD600C0B
+Content-Type: text/x-vcard; charset=utf-8;
+ name="thierry_reynaud.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="thierry_reynaud.vcf"
+
+begin:vcard
+fn:Thierry REYNAUD
+n:REYNAUD;Thierry
+org;quoted-printable:Laboratoire d'Oc=C3=A9anographie Physique et Spatiale - UMR 6523 Ifremer/=
+	CNRS/IRD/UBO
+adr;quoted-printable;quoted-printable:;;Technopole de la Pointe du Diable;Plouzan=C3=A9;Finist=C3=A8re;29280;France
+email;internet:thierry.reynaud@ifremer.fr
+tel;work:(33 or 0) 2 98 22 49 41
+tel;fax:(33 or 0) 2 98 22 44 96
+note;quoted-printable:Ifremer - UMR6523=0D=0A=
+	Campus IFREMER=0D=0A=
+	ZI de la Pointe du Diable=0D=0A=
+	CS10070=0D=0A=
+	29280 Plouzan=C3=A9
+url:http://www.umr-lops.fr/
+version:2.1
+end:vcard
+
+
+--------------D6A2CD4E76EA1389DD600C0B--

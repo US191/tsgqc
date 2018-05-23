@@ -1,11 +1,16 @@
 function mouseMotion(obj, ~)
+% mouseMotion update displayUI and notify an event for plotting the new
+% position on map
+
+% get position on first plot
 a = get(obj.axes.hdlPlotAxes(1), 'CurrentPoint');
 x = a(2,1);
 y = a(2,2);
 
-limx = obj.axes.hdlPlotAxes(1).XLim;
-limy = obj.axes.hdlPlotAxes(1).YLim;
+% limx = obj.axes.hdlPlotAxes(1).XLim;
+% limy = obj.axes.hdlPlotAxes(1).YLim;
 
+% get netcdf variables as local tsg structure
 tsg = obj.nc.Variables;
 
 % if cursor is out of valid data, display blank

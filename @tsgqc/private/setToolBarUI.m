@@ -1,6 +1,7 @@
 function setToolBarUI(obj)
+% setToolBarUI define the toolbar for direct access to functions
 
-% Toolbar
+% create the toolbar
 obj.hdlToolbar       =   uitoolbar(...
   'Parent',obj.hdlMainFig, ...
   'HandleVisibility','on');

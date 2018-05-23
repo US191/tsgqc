@@ -1,3 +1,18 @@
 function qcOffMenuCallback(obj, ~)
-disp(strcat(class(obj),': qcOffMenuCallback callback module not yet implemented', 'modal'));
-end % end of exportTsg
+% qcOffMenuCallback activate calibration and interpolate toolbar function
+
+set(obj.hdlCalToggletool,        'Enable',  'on');
+set(obj.hdlInterpToggletool,     'Enable',  'on');
+
+% activate left TSG parameter panel
+set(obj.hdlLeftPanel,            'Visible', 'on');
+
+% desactivate QC panel and QC context menu
+set(obj.hdlQCPanel,              'Visible', 'off');
+%set(obj.hdlQcContextmenu,        'Visible', 'off');
+
+set(obj.axes.hdlPlotAxes,'UIContextMenu', []);
+
+% return back cursor to arrow aspect
+set( obj.hdlMainFig, 'Pointer', 'arrow');
+

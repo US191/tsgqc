@@ -1,7 +1,4 @@
 function nc = readTsgDataLabview(filename, prefs)
-
-
-
 % readTsgDataLabview( hMainFig, filename )
 % This function read TSG files from acquisition software LabView
 %

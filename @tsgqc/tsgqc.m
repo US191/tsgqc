@@ -1,7 +1,7 @@
 classdef tsgqc < handle
   %TSGQC: Thermosalinograph (TSG) Quality Control software
   %
-  % For debug: 
+  % For debug:
   % close all force
   % clear classes
   
@@ -25,9 +25,10 @@ classdef tsgqc < handle
   %    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
   properties (Access = public)
-    VERSION = '1.9.0.3 alpha'
-    DATE    = '04/23/2018'
+    VERSION = '1.9.0.4 alpha'
+    DATE    = '05/23/2018'
     nc
+    qc         % structure for quality code (QC)
     inputFile
     outputFile
     preference % preference class load from mat file
@@ -45,7 +46,7 @@ classdef tsgqc < handle
     hdlMapToggletool
     hdlInfoFileText
     % left panel
-     hdlParameter
+    hdlParameter
   end
   
   
@@ -86,7 +87,10 @@ classdef tsgqc < handle
     % left panel
     hdlLeftPanel
     hdlParameterText
-   
+    % QC panel and contextual menu
+    hdlQCPanel
+    hdlQC
+    hdlQcContextmenu
     
     % more handle
     hdlZoom
@@ -145,11 +149,11 @@ classdef tsgqc < handle
       end
       
       % if TSGQC figure exist and still running, don't create a new instance
-      if ~isempty(findobj('Tag', 'TAG_TSG-QC_GUI_V2'))        
+      if ~isempty(findobj('Tag', 'TAG_TSG-QC_GUI_V2'))
         % display error dialog box and quit
         errordlg({'An instance of TSGQC is still running !!!', ...
           'Open it from you task bar'}, 'Warning TSGQC');
-        return; 
+        return;
       end
       
       % display user interface
@@ -189,22 +193,28 @@ classdef tsgqc < handle
         'KeyReleaseFcn',  {@(src,evt) keyReleaseFcnCallback(obj,src,evt)},...
         'CloseRequestFcn', {@(src,evt) delete(obj)});
       
+      % add Quality property to obj.qc 
+      % TODOS: netcdf instance add Quality property, dynaload include this prop
+      % this should be moving or not use in the future
+      obj.loadQuality;
+      
       % call the User Interface
       obj.setMenuUI(handleVisibility);
       obj.setDisplayUI;
       obj.setToolBarUI;
       obj.setLeftUI;
+      obj.setQcUI;
       
       % create an instance off classes plot and map with events
       obj.axes = tsgqc.plot(obj);
-       obj.map = tsgqc.map(obj);
+      obj.map = tsgqc.map(obj);
       
       % add listeners
       obj.hdlDataAvailable = addlistener(obj,'dataAvailable',@obj.dataAvailableEvent);
       obj.hdlZoomOn = addlistener(obj,'zoomOn',@obj.zoomOnEvent);
       obj.hdlZoomOff = addlistener(obj,'zoomOff',@obj.zoomOffEvent);
       obj.hdlPosition = addlistener(obj,'positionOnMap',@obj.positionOnMapEvent);
-
+      
       % batch mode
       if ~isempty(obj.inputFile)
         obj.readFile;
@@ -225,11 +235,11 @@ classdef tsgqc < handle
     
     % display overloaded method
     % -------------------------
-    function disp(obj)
-      if obj.debug
-        % disp not implemented
-      end
-    end
+%     function disp(obj)
+%       if obj.debug
+%         % disp not implemented
+%       end
+%     end
     
   end % end of public methods
   

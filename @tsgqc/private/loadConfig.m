@@ -10,7 +10,7 @@ if exist(obj.configFile, 'file') == 2
     % try to load class instance in local workspace
     load(obj.configFile, 'tsgqcPrefs');
     % affect local workspace tsgqcPrefs to preference instance
-    obj.preference = tsqgcPrefs;
+    obj.preference = tsgqcPrefs;
   catch
     % on error, load default preference class
     obj.preference = preference(obj.VERSION, obj.DATE);

@@ -1,0 +1,68 @@
+From: "Jacques GRELET, Brest IRD, 02 98 22 45 10" <jacques.grelet@ird.fr>
+Subject: =?UTF-8?Q?_TSGQC_V2_et_R=c3=a9union_SO-SSS?=
+Reply-To: Jacques.Grelet@ird.fr
+To: "GOURIOU, Yves" <yves.gouriou@ird.fr>,
+ Gael Alory <gael.alory@legos.obs-mip.fr>,
+ Thierry Delcroix <Thierry.Delcroix@legos.obs-mip.fr>,
+ Denis Diverres <Denis.Diverres@ird.fr>,
+ VARILLON David <David.Varillon@ird.fr>,
+ =?UTF-8?Q?St=c3=a9phane_JACQUIN?= <stephane.jacquin@ird.fr>,
+ =?UTF-8?Q?C=c3=a9line_Bachelier?= <celine.bachelier@ird.fr>,
+ Thierry Reynaud <thierry.reynaud@ifremer.fr>,
+ Bernard Bourles <Bernard.Bourles@ird.fr>
+Openpgp: preference=signencrypt
+Message-ID: <22ec1af0-3562-385d-a036-c9a537a75850@ird.fr>
+Date: Thu, 3 May 2018 14:08:33 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=windows-1252
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+
+Bonjour à tous,
+
+La version 1.x de TSGQC a déjà 10 ans.
+
+Afin de rendre le code plus facilement évolutif, j'ai commencé le
+développement de la version 2 à partir d'une version récente de Matlab
+(>= R2016b).
+Pour l'instant ce n'est qu'un projet permettant de tester des techniques
+de programmation plus récentes (objet, gestion d’événements, etc).
+
+Afin de préparer la prochaine réunion en juin prochain, si vous avez des
+pistes d'améliorations, ajouts/suppressions de fonctionnalités,
+évolutions de l'interface utilisateur, etc, faites les moi parvenir par
+retour de mail, je suis preneur de vos idées/suggestions.
+
+Le dépôt est dorénavant maintenu avec Git à la place de Subversion et
+est disponible sous : https://github.com/US191/tsgqc mais il y a encore
+du travail pour implémenter toutes les fonctionnalités de la version 1.
+
+Amicalement,
+
+-- 
+Jacques Grelet
+
+Unité de Service 191 IMAGO
+"Instrumentation, Moyens Analytiques, Observatoires en Geophysique et
+Oceanographie"
+
+Courriel: Jacques.Grelet@ird.fr
+ou        Jacques.Grelet@ifremer.fr
+
+Adresse:  IRD Centre de Bretagne
+          US 191
+          BP 70
+          29 280 Plouzane
+
+Tel: (33) 02 98 22 45 10
+Fax: (33) 02 98 22 45 14
+
+
+
+
+
+
+
+

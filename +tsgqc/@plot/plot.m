@@ -46,16 +46,19 @@ classdef plot < handle
   
   methods (Access = private)
     
-    % plot data
-    % ---------
+    % plot data called by dataAvailableEvent
+    % ---------------------------------------
     function plotData(obj, plotNum, X, Y, QC, qCode, para, colVal, ...
         lineType, markType, markSize)
       
       if ~isempty( X ) && ~isempty( Y )
         
-        % Positionning the right axes (set map current axe)
+        % positionning the right axes (set map current axe)
         axes(obj.hdlPlotAxes(plotNum));
-        set(obj.hdlPlotAxes(plotNum), 'XLimMode', 'auto', 'YLimMode', 'auto');
+        % obj.hdlParent.CurrentAxes = obj.hdlPlotAxes(plotNum);
+        
+        % see resetAxes from tsgqc V1
+        %set(obj.hdlPlotAxes(plotNum), 'XLimMode', 'auto', 'YLimMode', 'auto');
         
         if ~isempty(QC)
           keys = fieldnames(qCode);
@@ -83,6 +86,10 @@ classdef plot < handle
             'Marker', markType, 'MarkerSize', markSize, 'Color', colVal);
         end
         obj.axesCommonProp;
+        
+        % write some 'Y' label
+        set(obj.hdlPlotAxes(plotNum).YLabel, 'Interpreter', 'none', 'String', para);
+        
       end
       
     end % end of plotData
@@ -122,6 +129,7 @@ classdef plot < handle
     % ---------------------------------------
     function dataAvailableEvent(obj,src,~)
       fprintf(1, 'data available for %s\n', class(obj));
+      
       % print filename without path in DisplayUI
       [~,file,ext] = fileparts(src.inputFile);
       src.hdlInfoFileText.String = strcat(file, ext);
@@ -129,14 +137,15 @@ classdef plot < handle
       markType = '*';
       colVal = 'b';
       markSize = 2;
+      
       % get list of parametrs from left panel popup
       para1 = get(src.hdlParameter(1), 'string');
-       para2 = get(src.hdlParameter(2), 'string');
-        para3 = get(src.hdlParameter(3), 'string');
+      para2 = get(src.hdlParameter(2), 'string');
+      para3 = get(src.hdlParameter(3), 'string');
       PARA = {para1{get(src.hdlParameter(1), 'value')}, ...
         para2{get(src.hdlParameter(2), 'value')},...
         para3{get(src.hdlParameter(3), 'value')}};
-      qCode = src.nc.Quality;
+      
       X = src.nc.Variables.DAYD.data__;
       for i = 1 : length(PARA)
         obj.eraseLine(i);
@@ -147,7 +156,7 @@ classdef plot < handle
         else
           QC = zeros(length(src.nc.Variables.(para).data__),1);
         end
-        obj.plotData(i, X, Y, QC, qCode, para, colVal, lineType, markType, markSize);
+        obj.plotData(i, X, Y, QC, src.qc, para, colVal, lineType, markType, markSize);
       end
     end
   end

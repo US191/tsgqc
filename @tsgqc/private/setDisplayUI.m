@@ -1,8 +1,6 @@
 function setDisplayUI(obj)
-
-%  Dynamic text area that displays the loaded filename, date, position and
-%  salinity, temperature
-%  ------------------------------------------------------------------------
+% setDisplayUI draw a plot area that displays the loaded filename, date, position and
+% salinity, temperature above the first plot
 
 % Create an uipanel
 obj.hdlInfoPanel = uipanel( ...

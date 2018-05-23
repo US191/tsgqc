@@ -212,7 +212,7 @@ classdef map < handle
         para = 'SSPS';
         
         % plot the line with QC color
-        qCode = src.nc.Quality;
+        qCode = src.qc;
         QC = src.nc.Variables.([para '_QC']).data__;
         keys = fieldnames(qCode);
         for k = 1: length(keys)
