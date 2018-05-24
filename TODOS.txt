@@ -1,0 +1,31 @@
+ TSGQC TODOS
+
+Technics:
+
+- Listener Callback Syntax:
+  https://fr.mathworks.com/help/matlab/matlab_oop/listener-callback-functions.html
+
+List of functionalities:
+
+Instruments 
+- Works with data from SBE21, SBE45 or FerryBox
+- Have NetCDF4 representation in memory with group for instruments and
+- processing level (raw, adjusted, ...)
+
+GUI
+- Save the last extension for next load
+- Zoom on map may be constraint from time range
+- test if an tsgqc instance is in memory 04/26/2018
+- implement mouse function
+- update zoom on axes and map, use event and pass coordinates
+- use contextual menu for zoom
+- zoom with ctrl+wheel mouse
+- add control on map to extend/minimize area
+- found an (simple) alternative to m_map
+- resolve Quality member and reading '+tsgqc\@dynaload\tsgqc_netcdf.csv' 04/26/2018
+- implement write for GOSUD, OceanSites and ascii
+- add external package including m_map, seawater and climate
+- apply median filter for high density data
+- give variables in a list from a config file
+- implement write function for GOSUD, OceanSites and asci format
+
