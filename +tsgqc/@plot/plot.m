@@ -127,7 +127,7 @@ classdef plot < handle
     
     % wait for dataAvailable event from tsgqc
     % ---------------------------------------
-    function dataAvailableEvent(obj,src,~)
+    function dataAvailableEvent(obj, src, evnt)
       fprintf(1, 'data available for %s\n', class(obj));
       
       % print filename without path in DisplayUI
@@ -138,14 +138,8 @@ classdef plot < handle
       colVal = 'b';
       markSize = 2;
       
-      % get list of parameters from left panel popup
-      % TODOS: pass array para as argument of eventData
-      para1 = get(src.hdlParameter(1), 'string');
-      para2 = get(src.hdlParameter(2), 'string');
-      para3 = get(src.hdlParameter(3), 'string');
-      PARA = {para1{get(src.hdlParameter(1), 'value')}, ...
-        para2{get(src.hdlParameter(2), 'value')},...
-        para3{get(src.hdlParameter(3), 'value')}};
+      % get list of parameters from left panel popup passed to event
+      PARA = evnt.param;
       
       X = src.nc.Variables.DAYD.data__;
       for i = 1 : length(PARA)

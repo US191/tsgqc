@@ -50,7 +50,7 @@ for i = 1 : length(qcList)
       'String', label,...
       'Tag', ['TAG_QC_RADIO_' key], ...
       'Units', 'normalized', 'Position', [.01, .85-count*.12, .6, 0.09],...
-      'Callback', {@activeQc, key});
+      'Callback', {@activeQcPopupMenu, key});
     
     % add text QC display statistic on hQcPanel
     uicontrol(...
@@ -69,19 +69,34 @@ for i = 1 : length(qcList)
       'HandleVisibility','on', ...
       'Label', label,...
       'ForegroundColor', color,...
-      'Callback', {@activeQc, key});
+      'Callback', {@activeQcContextMenu, key});
     
   end
   
 end
 
-% activeQc nested function used to save the active code.
-% We use the same callback for radiobutton and contextual menu
-% -------------------------------------------------------------
-  function activeQc(src, evnt, key)
+% nested function to set used to save the active code in activeQc property
+% ------------------------------------------------------------------------
+  function activeQcPopupMenu(src, evnt, key)
     obj.activeQc.code = obj.qc.(key).code;
     obj.activeQc.color = obj.qc.(key).color;
-    fprintf(1, 'Active code is %s: %d\n', key, obj.activeQc.code);
+  end
+
+% nested function used to save the active code.
+% and change the QC radiobutton selected from contextual menu
+% -------------------------------------------------------------
+  function activeQcContextMenu(src, evnt, key)
+    obj.activeQc.code = obj.qc.(key).code;
+    obj.activeQc.color = obj.qc.(key).color;
+    
+  % get the QC uicontrol handle from tag and 
+  hdlRadio = findobj(obj.hdlMainFig, 'tag', ['TAG_QC_RADIO_' key]);
+  
+  % give it the focus eventualy selected with the contextual menu
+  hdlRadio.Value = 1; 
+  
+  % call 
+  obj.QcSelectCallback
   end
 
 end

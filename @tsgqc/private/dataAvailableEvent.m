@@ -23,11 +23,6 @@ set(obj.hdlBottleToggletool,     'Enable', 'on');
 set(obj.hdlHeaderPushtool,       'Enable', 'on');
 set(obj.hdlReportPushtool,       'Enable', 'on');
 
-% set popup parameters from list of variables read in file
-set(obj.hdlParameter(1), 'string', obj.initParameterChoice(1) );
-set(obj.hdlParameter(2), 'string', obj.initParameterChoice(2) );
-set(obj.hdlParameter(3), 'string', obj.initParameterChoice(3) );
-
 % enable left panel
 set(obj.hdlLeftPanel,            'Visible', 'on');
 end

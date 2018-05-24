@@ -102,6 +102,9 @@ classdef tsgqc < handle
     hdlZoomOn
     hdlZoomOff
     hdlPosition
+    
+    % index of selected QC
+    rbboxInd
   end
   
   events

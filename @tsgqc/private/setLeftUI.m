@@ -17,11 +17,11 @@ ybottom = [.7 .38 .05];
 
 % set popup menu for available parameters, string is equal to NONE first
 for ipmh = 1 : 3
- obj.hdlParameter(ipmh) = uicontrol(...
+  obj.hdlParameter(ipmh) = uicontrol(...
     'Parent', obj.hdlLeftPanel , 'Style', 'popupmenu', ...
     'String', { 'NONE' }, 'Value', 1, ...
     'HandleVisibility', 'on', ...
-    'Callback', @obj.parameterChoice, ...
+    'Callback', @(src,evnt)parameterChoiceCallback(src,evnt,obj), ...
     'Units', 'normalized', 'Position', [.01, ybottom(ipmh), .3, 0.25]);
   
   obj.hdlParameterText(ipmh) = uicontrol( ...
@@ -30,3 +30,29 @@ for ipmh = 1 : 3
     'HorizontalAlignment', 'left', 'FontSize', obj.preference.fontSize-1, ...
     'Units', 'normalized',  'Position',[.35, ybottom(ipmh), .6, 0.25]);
 end
+
+  % nested function
+  % parameterChoiceEventData send a signal to plot data again   
+  % -----------------
+  function parameterChoiceCallback(~, ~, obj)
+    
+    % get cell array of parameters
+    para1 = get(obj.hdlParameter(1), 'string');
+    para2 = get(obj.hdlParameter(2), 'string');
+    para3 = get(obj.hdlParameter(3), 'string');
+    
+    % build a cell array of selected parameters
+    PARA = {para1{get(obj.hdlParameter(1), 'value')}, ...
+      para2{get(obj.hdlParameter(2), 'value')},...
+      para3{get(obj.hdlParameter(3), 'value')}};
+    
+    % pass cell array PARA to evtData instance of parameterChoiceEventData
+    % object which inherit from eventData class
+    evtData = tsgqc.parameterChoiceEventData(PARA);
+    
+    % send an event with evtData as argument (evtData.param = PARA)
+    notify(obj,'dataAvailable', evtData)
+  end
+
+end
+

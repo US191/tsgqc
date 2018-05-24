@@ -46,12 +46,21 @@ switch ext
     obj.nc = io.readAsciiTsg(filename);
 end
 
-% add Quality property of netcdf instance if the property is not defined 
-% TODOS: this is replaced with obj.qc actually and code is comment
-% if ~isprop(obj.nc, 'Quality')
-%   obj.loadQuality;
-% end
+% set popup parameters from list of variables read in file
+set(obj.hdlParameter(1), 'string', obj.initParameterChoice(1) );
+set(obj.hdlParameter(2), 'string', obj.initParameterChoice(2) );
+set(obj.hdlParameter(3), 'string', obj.initParameterChoice(3) );
+
+para1 = get(obj.hdlParameter(1), 'string');
+para2 = get(obj.hdlParameter(2), 'string');
+para3 = get(obj.hdlParameter(3), 'string');
+
+PARA = {para1{get(obj.hdlParameter(1), 'value')}, ...
+  para2{get(obj.hdlParameter(2), 'value')},...
+  para3{get(obj.hdlParameter(3), 'value')}};
+
+evtData = tsgqc.parameterChoiceEventData(PARA);
 
 % send event dataAvailable to application
-notify(obj, 'dataAvailable');
-notify(obj, 'dataAvailableForMap');
+notify(obj, 'dataAvailable', evtData);
+%notify(obj, 'dataAvailableForMap');

@@ -1,5 +1,5 @@
 function thePopup = initParameterChoice(obj, value)
-% initParameterChoice is called by dataAvailableEvent
+% initParameterChoice is called by readFile method
 
 % list of parameters 
 popup = {{'SSPS','SSJT','SSTP','LATX','LONX'}, ...
