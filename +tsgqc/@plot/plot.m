@@ -138,7 +138,8 @@ classdef plot < handle
       colVal = 'b';
       markSize = 2;
       
-      % get list of parametrs from left panel popup
+      % get list of parameters from left panel popup
+      % TODOS: pass array para as argument of eventData
       para1 = get(src.hdlParameter(1), 'string');
       para2 = get(src.hdlParameter(2), 'string');
       para3 = get(src.hdlParameter(3), 'string');

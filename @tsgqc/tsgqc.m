@@ -28,7 +28,8 @@ classdef tsgqc < handle
     VERSION = '1.9.0.4 alpha'
     DATE    = '05/23/2018'
     nc
-    qc         % structure for quality code (QC)
+    qc         % struct for quality code (QC)
+    activeQc   % struct to save active QC
     inputFile
     outputFile
     preference % preference class load from mat file

@@ -1,5 +1,5 @@
-% callback function run when key is pressed
 function keyPressFcnCallback(obj, src, evnt)
+% keyPressFcnCallback function run when keyboard is pressed
 
 % MATLAB generates repeated KeyPressFcn events, desactivate callback
 set(src, 'KeyPressFcn', []);
