@@ -37,7 +37,7 @@ classdef tsgqc < handle
     configFile
     debug = false
     help
-    axes
+    plot
     map
   end
   
@@ -210,7 +210,7 @@ classdef tsgqc < handle
       obj.setQcUI;
       
       % create an instance off classes plot and map with events
-      obj.axes = tsgqc.plot(obj);
+      obj.plot = tsgqc.plot(obj);
       obj.map = tsgqc.map(obj);
       
       % add listeners

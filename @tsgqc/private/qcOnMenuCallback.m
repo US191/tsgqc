@@ -16,10 +16,10 @@ set(obj.hdlQCPanel,              'Visible', 'on');
 %set(obj.hdlQcContextmenu,        'Visible', 'on');
 
 % activate right clic context on axes
-set(obj.axes.hdlPlotAxes(1), 'UIContextMenu', obj.hdlQcContextmenu);
+set(obj.plot.hdlPlotAxes(1), 'UIContextMenu', obj.hdlQcContextmenu);
 
 % activate clic mouse menu on first axes (salinity) for next rbbox
-set(obj.axes.hdlPlotAxes(1), 'ButtonDownFcn', @obj.QcSelectCallback);
+set(obj.plot.hdlPlotAxes(1), 'ButtonDownFcn', @obj.QcSelectCallback);
 
 % change cursor to crosshair aspect
 set( obj.hdlMainFig, 'Pointer', 'crosshair');

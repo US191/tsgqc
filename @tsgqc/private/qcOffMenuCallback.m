@@ -11,7 +11,7 @@ set(obj.hdlLeftPanel,            'Visible', 'on');
 set(obj.hdlQCPanel,              'Visible', 'off');
 %set(obj.hdlQcContextmenu,        'Visible', 'off');
 
-set(obj.axes.hdlPlotAxes,'UIContextMenu', []);
+set(obj.plot.hdlPlotAxes,'UIContextMenu', []);
 
 % return back cursor to arrow aspect
 set( obj.hdlMainFig, 'Pointer', 'arrow');

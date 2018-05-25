@@ -121,7 +121,7 @@ classdef map < handle
       obj.lonx = double(src.nc.Variables.LONX.data__);
       
       % Get the Geographic limit of the TSG time series
-      dateLim = get(src.axes.hdlPlotAxes(1), 'Xlim');
+      dateLim = get(src.plot.hdlPlotAxes(1), 'Xlim');
       ind = find( obj.dayd >= dateLim(1) & obj.dayd <= dateLim(2));
       % BUG: empty indice ....
       if ~isempty( ind )

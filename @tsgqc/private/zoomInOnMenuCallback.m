@@ -3,7 +3,7 @@ function zoomInOnMenuCallback(obj, ~)
 % send event zoomOn to application
 notify(obj, 'zoomOn');
 
-obj.hdlZoom = zoom(obj.axes.hdlPlotAxes(1));
+obj.hdlZoom = zoom(obj.plot.hdlPlotAxes(1));
 
 obj.hdlZoom.ActionPostCallback = {@(src,evt) zoomAndPanPostCallback(obj,src)};
 

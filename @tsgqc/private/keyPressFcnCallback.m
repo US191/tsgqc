@@ -19,7 +19,7 @@ if ~isempty(evnt.Key)
       
       % get current position of cusor and return its coordinates in
       % axes
-      a = get(obj.axes.hdlPlotAxes(1), 'CurrentPoint');
+      a = get(obj.plot.hdlPlotAxes(1), 'CurrentPoint');
       x = a(2,1);
       
       % test if cursor is inside data interval
@@ -27,8 +27,8 @@ if ~isempty(evnt.Key)
         
         % loop over 3 subplot and draw vertical lines
         for iplot = 1:3
-          limy = get(obj.axes.hdlPlotAxes(iplot), 'YLim');
-          line(obj.axes.hdlPlotAxes(iplot), [x x], limy, 'color', 'k',...
+          limy = get(obj.plot.hdlPlotAxes(iplot), 'YLim');
+          line(obj.plot.hdlPlotAxes(iplot), [x x], limy, 'color', 'k',...
             'tag', 'VERTICAL_TAG_LINE');
         end
         

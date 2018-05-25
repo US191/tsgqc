@@ -3,12 +3,12 @@ function mouseMotion(obj, ~)
 % position on map
 
 % get position on first plot
-a = get(obj.axes.hdlPlotAxes(1), 'CurrentPoint');
+a = get(obj.plot.hdlPlotAxes(1), 'CurrentPoint');
 x = a(2,1);
 y = a(2,2);
 
-% limx = obj.axes.hdlPlotAxes(1).XLim;
-% limy = obj.axes.hdlPlotAxes(1).YLim;
+% limx = obj.plot.hdlPlotAxes(1).XLim;
+% limy = obj.plot.hdlPlotAxes(1).YLim;
 
 % get netcdf variables as local tsg structure
 tsg = obj.nc.Variables;
