@@ -62,5 +62,8 @@ PARA = {para1{get(obj.hdlParameter(1), 'value')}, ...
 evtData = tsgqc.parameterChoiceEventData(PARA);
 
 % send event dataAvailable to application
-notify(obj, 'dataAvailable', evtData);
+%notify(obj, 'dataAvailable', evtData);
+obj.dataAvailableEvent;
+obj.plot.plotData(evtData);
+obj.map.plotMap;
 %notify(obj, 'dataAvailableForMap');

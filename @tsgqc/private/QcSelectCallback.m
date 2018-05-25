@@ -36,8 +36,10 @@ obj.nc.Variables.([PARA{1} '_QC']).data__(ind) = obj.activeQc.code;
 evtData = tsgqc.parameterChoiceEventData(PARA);
 
 % send event dataAvailable to application
-notify(obj, 'dataAvailable', evtData);
+%notify(obj, 'dataAvailable', evtData);
 % notify(obj, 'dataAvailableForMap');
+obj.plot.plotData(evtData);
+obj.map.plotMap;
 
 % update QC panel
 obj.updateQcPanel;

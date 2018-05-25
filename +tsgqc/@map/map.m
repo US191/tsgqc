@@ -40,9 +40,9 @@ classdef map < handle
       %obj.setToolBarUI
       
       % add listener from tsgqc when data are available
-      obj.hdlDataAvailable = addlistener(parent,'dataAvailableForMap',@obj.dataAvailableEvent);
+      %obj.hdlDataAvailable = addlistener(parent,'dataAvailableForMap',@obj.dataAvailableEvent);
       obj.hdlPositionOnMap = addlistener(obj,'position',@obj.positionOnMapEvent);
-      obj.hdlZoomPost = addlistener(obj,'zoomPost',@obj.zoomPostEvent);
+      %obj.hdlZoomPost = addlistener(obj,'zoomPost',@obj.zoomPostEvent);
 
     end
     
@@ -106,9 +106,7 @@ classdef map < handle
         'OffCallback',  'zoom off');
     end
     
-  end % end of public methods
-  
-  methods (Access = private)
+
     
     % plot coastline map and ship track
     % -----------------------------------
@@ -116,12 +114,12 @@ classdef map < handle
       
       % initialize map properties
       % m_grid need the use of double instead single
-      obj.dayd = double(src.nc.Variables.DAYD.data__);
-      obj.latx = double(src.nc.Variables.LATX.data__);
-      obj.lonx = double(src.nc.Variables.LONX.data__);
+      obj.dayd = double(obj.parent.nc.Variables.DAYD.data__);
+      obj.latx = double(obj.parent.nc.Variables.LATX.data__);
+      obj.lonx = double(obj.parent.nc.Variables.LONX.data__);
       
       % Get the Geographic limit of the TSG time series
-      dateLim = get(src.plot.hdlPlotAxes(1), 'Xlim');
+      dateLim = get(obj.parent.plot.hdlPlotAxes(1), 'Xlim');
       ind = find( obj.dayd >= dateLim(1) & obj.dayd <= dateLim(2));
       % BUG: empty indice ....
       if ~isempty( ind )
@@ -164,7 +162,7 @@ classdef map < handle
         %set(obj.hdlMapAxes, 'XLimMode', 'auto', 'YLimMode', 'auto');
         
         % if toolbar map is selected, give focus to map
-        obj.hdlMapFig.Visible = src.hdlMapToggletool.State;
+        obj.hdlMapFig.Visible = obj.parent.hdlMapToggletool.State;
         
         % display info on console
         tic;
@@ -174,7 +172,7 @@ classdef map < handle
         m_proj('Mercator','lat',[obj.latMin obj.latMax],'long',[obj.lonMin obj.lonMax]);
         
         % use different resolution
-        switch src.preference.map_resolution
+        switch obj.parent.preference.map_resolution
           case 1
             % Low-resolution coast lines
             fprintf(1, 'low resolution');
@@ -195,7 +193,7 @@ classdef map < handle
             fprintf(1, 'high resolution');
             m_gshhs_h('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
           otherwise
-            src.preference.map_resolution = 1;
+            obj.parent.preference.map_resolution = 1;
             % Low-resolution coast lines
             fprintf(1, 'low resolution');
             m_coast('patch',[.7 .7 .7], 'TAG', 'TAG_PLOT4_LINE_COAST');
@@ -206,14 +204,14 @@ classdef map < handle
         
         % Make a grid on the map with fancy box
         m_grid('box', 'fancy', 'tickdir', 'in', 'TAG', 'TAG_PLOT4_LINE_GRID', ...
-          'Fontsize', src.preference.fontSize);
+          'Fontsize', obj.parent.preference.fontSize);
         
         % change with generic value in next version
         para = 'SSPS';
         
         % plot the line with QC color
-        qCode = src.qc;
-        QC = src.nc.Variables.([para '_QC']).data__;
+        qCode = obj.parent.qc;
+        QC = obj.parent.nc.Variables.([para '_QC']).data__;
         keys = fieldnames(qCode);
         for k = 1: length(keys)
           ind = find( QC == qCode.(keys{k}).code);
@@ -326,10 +324,10 @@ classdef map < handle
     
     % wait for dataAvailableForMap event, plot map
     % --------------------------------------------
-    function dataAvailableEvent(obj,src,~)
-      fprintf(1, 'data available for %s\n', class(obj));
-      obj.plotMap(src);
-    end
+%     function dataAvailableEvent(obj,src,~)
+%       fprintf(1, 'data available for %s\n', class(obj));
+%       obj.plotMap(src);
+%     end
     
     % executed on 'position' event reception from mousemotion callback
     % the maker handle is stored in axes userdata property

@@ -193,9 +193,9 @@ classdef tsgqc < handle
         'Units', 'normalized',...
         'Position',guiLimits, ...
         'Color', get( 0, 'DefaultUIControlBackgroundColor' ),...
-        'KeyPressFcn',  {@obj.keyPressFcnCallback},...
-        'KeyReleaseFcn',  {@(src,evt) keyReleaseFcnCallback(obj,src,evt)},...
-        'CloseRequestFcn', {@(src,evt) delete(obj)});
+        'KeyPressFcn',  @obj.keyPressFcnCallback,...
+        'KeyReleaseFcn',  @obj.keyReleaseFcnCallback,...
+        'CloseRequestFcn', @obj.delete);
       
       % add Quality property to obj.qc 
       % TODOS: netcdf instance add Quality property, dynaload include this prop
@@ -214,10 +214,10 @@ classdef tsgqc < handle
       obj.map = tsgqc.map(obj);
       
       % add listeners
-      obj.hdlDataAvailable = addlistener(obj,'dataAvailable',@obj.dataAvailableEvent);
-      obj.hdlZoomOn = addlistener(obj,'zoomOn',@obj.zoomOnEvent);
-      obj.hdlZoomOff = addlistener(obj,'zoomOff',@obj.zoomOffEvent);
-      obj.hdlPosition = addlistener(obj,'positionOnMap',@obj.positionOnMapEvent);
+%       obj.hdlDataAvailable = addlistener(obj,'dataAvailable',@obj.dataAvailableEvent);
+%       obj.hdlZoomOn = addlistener(obj,'zoomOn',@obj.zoomOnEvent);
+%       obj.hdlZoomOff = addlistener(obj,'zoomOff',@obj.zoomOffEvent);
+%       obj.hdlPosition = addlistener(obj,'positionOnMap',@obj.positionOnMapEvent);
       
       % batch mode
       if ~isempty(obj.inputFile)
@@ -228,7 +228,7 @@ classdef tsgqc < handle
     
     % destructor
     % ----------
-    function delete(obj)
+    function delete(obj,~,~)
       % method save_config
       saveConfig(obj);
       if ~isempty(obj.map.hdlMapFig)

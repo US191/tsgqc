@@ -3,6 +3,7 @@ classdef plot < handle
   %   Detailed explanation goes here
   
   properties
+    parent
     hdlParent
     hdlPlotsPanel
     hdlPlotAxes
@@ -15,10 +16,11 @@ classdef plot < handle
     % ---------------------------------------------------------------
     function obj = plot(parent)
       
+      obj.parent = parent;
       obj.hdlParent = parent.hdlMainFig;
       obj.setUI;
       % add listener from tsgqc when data are available
-      obj.hdlDataAvailable = addlistener(parent,'dataAvailable',@obj.dataAvailableEvent);
+      %obj.hdlDataAvailable = addlistener(parent,'dataAvailable',@obj.dataAvailableEvent);
     end
     
     % build plot data User Interface
@@ -42,13 +44,43 @@ classdef plot < handle
         'HandleVisibility','on', 'Position',[.05, .02, .93, .27]);
     end % end of tsgqc.plot constructor
     
+        % wait for dataAvailable event from tsgqc
+    % ---------------------------------------
+    function plotData(obj, evnt)
+      fprintf(1, 'data available for %s\n', class(obj));
+      
+      % print filename without path in DisplayUI
+      [~,file,ext] = fileparts(obj.parent.inputFile);
+      obj.parent.hdlInfoFileText.String = strcat(file, ext);
+      lineType =  'none';
+      markType = '*';
+      colVal = 'b';
+      markSize = 2;
+      
+      % get list of parameters from left panel popup passed to event
+      PARA = evnt.param;
+      
+      X = obj.parent.nc.Variables.DAYD.data__;
+      for i = 1 : length(PARA)
+        obj.eraseLine(i);
+        para = PARA{i};
+        Y = obj.parent.nc.Variables.(para).data__;
+        if  isfield(obj.parent.nc.Variables, [para '_QC'])
+          QC = obj.parent.nc.Variables.([para '_QC']).data__;
+        else
+          QC = zeros(length(obj.parent.nc.Variables.(para).data__),1);
+        end
+        obj.plotParameter(i, X, Y, QC, obj.parent.qc, para, colVal, lineType, markType, markSize);
+      end
+    end
+    
   end % end of public methods
   
   methods (Access = private)
     
     % plot data called by dataAvailableEvent
     % ---------------------------------------
-    function plotData(obj, plotNum, X, Y, QC, qCode, para, colVal, ...
+    function plotParameter(obj, plotNum, X, Y, QC, qCode, para, colVal, ...
         lineType, markType, markSize)
       
       if ~isempty( X ) && ~isempty( Y )
@@ -92,7 +124,7 @@ classdef plot < handle
         
       end
       
-    end % end of plotData
+    end % end of plotParameter
     
     function axesCommonProp(obj)
       datetick(obj.hdlPlotAxes(1), 'x', 'keeplimits');
@@ -125,35 +157,6 @@ classdef plot < handle
       
     end
     
-    % wait for dataAvailable event from tsgqc
-    % ---------------------------------------
-    function dataAvailableEvent(obj, src, evnt)
-      fprintf(1, 'data available for %s\n', class(obj));
-      
-      % print filename without path in DisplayUI
-      [~,file,ext] = fileparts(src.inputFile);
-      src.hdlInfoFileText.String = strcat(file, ext);
-      lineType =  'none';
-      markType = '*';
-      colVal = 'b';
-      markSize = 2;
-      
-      % get list of parameters from left panel popup passed to event
-      PARA = evnt.param;
-      
-      X = src.nc.Variables.DAYD.data__;
-      for i = 1 : length(PARA)
-        obj.eraseLine(i);
-        para = PARA{i};
-        Y = src.nc.Variables.(para).data__;
-        if  isfield(src.nc.Variables, [para '_QC'])
-          QC = src.nc.Variables.([para '_QC']).data__;
-        else
-          QC = zeros(length(src.nc.Variables.(para).data__),1);
-        end
-        obj.plotData(i, X, Y, QC, src.qc, para, colVal, lineType, markType, markSize);
-      end
-    end
   end
   
 end
